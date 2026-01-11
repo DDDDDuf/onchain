@@ -377,17 +377,18 @@ def generate_flow_graph(network: str = None, limit: int = 20) -> dict:
     
     for entity in selected_entities:
         nodes.append({
-            "id": entity["address"][:10],
+            "id": entity["address"],
             "label": entity["label"] or entity["address"][:10],
             "entity_type": entity["type"],
             "network": network or random.choice(NETWORKS)["id"],
             "total_volume": round(random.uniform(100000, 10000000), 2)
         })
     
-    # Generate links between nodes
+    # Generate links between nodes using indices
     for i in range(len(nodes)):
-        num_links = random.randint(1, 3)
-        targets = random.sample([n for n in nodes if n["id"] != nodes[i]["id"]], min(num_links, len(nodes) - 1))
+        num_links = random.randint(1, 2)
+        possible_targets = [j for j in range(len(nodes)) if j != i]
+        target_indices = random.sample(possible_targets, min(num_links, len(possible_targets)))
         for target in targets:
             links.append({
                 "source": nodes[i]["id"],
