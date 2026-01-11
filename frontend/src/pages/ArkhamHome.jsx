@@ -237,6 +237,22 @@ const MainTokenDisplay = () => {
 
 // Exchange Flows Table
 const ExchangeFlows = () => {
+  // Token colors for each asset
+  const getTokenColor = (asset) => {
+    const colors = {
+      'AWE': '#F59E0B',
+      'BARD': '#EC4899',
+      'AXS': '#F59E0B',
+      'JASMY': '#F97316',
+      'CTC': '#6366F1',
+      'PYTH': '#8B5CF6',
+      'ZRX': '#3B82F6',
+      'LPT': '#10B981',
+      'OETH': '#627EEA'
+    };
+    return colors[asset] || '#6B7280';
+  };
+
   return (
     <div className="bg-white border border-gray-100 rounded-xl" data-testid="exchange-flows">
       <div className="p-4 border-b border-gray-100">
@@ -257,57 +273,57 @@ const ExchangeFlows = () => {
         </div>
       </div>
       
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto max-h-[400px]">
         <table className="w-full text-xs">
-          <thead>
+          <thead className="sticky top-0 bg-gray-50/95 backdrop-blur-sm">
             <tr className="border-b border-gray-100">
-              <th className="text-left py-2 px-3 font-medium text-gray-400">
+              <th className="text-left py-2 px-3 font-medium text-gray-400 text-[10px]">
                 <Filter className="w-3 h-3 inline mr-1" />
-                CEX/DEX
+                ASSET
               </th>
-              <th className="text-left py-2 px-3 font-medium text-gray-400">
-                <Filter className="w-3 h-3 inline mr-1" />
-                MARKET CAP
-              </th>
-              <th className="text-left py-2 px-3 font-medium text-gray-400">ASSET</th>
-              <th className="text-right py-2 px-3 font-medium text-gray-400">PRICE</th>
-              <th className="text-right py-2 px-3 font-medium text-gray-400">VOLUME</th>
-              <th className="text-right py-2 px-3 font-medium text-gray-400">NETFLOW</th>
+              <th className="text-right py-2 px-3 font-medium text-gray-400 text-[10px]">PRICE</th>
+              <th className="text-right py-2 px-3 font-medium text-gray-400 text-[10px]">VOLUME</th>
+              <th className="text-right py-2 px-3 font-medium text-gray-400 text-[10px]">NETFLOW</th>
+              <th className="w-8"></th>
             </tr>
           </thead>
           <tbody>
             {exchangeFlowsData.map((row, index) => (
-              <tr key={index} className="border-b border-gray-50 hover:bg-gray-50 cursor-pointer">
-                <td className="py-2 px-3" colSpan={2}></td>
-                <td className="py-2 px-3">
+              <tr key={index} className="border-b border-gray-50 hover:bg-gray-50/70 cursor-pointer group">
+                <td className="py-2.5 px-3">
                   <div className="flex items-center gap-2">
-                    <div className="w-5 h-5 bg-gradient-to-br from-orange-400 to-orange-500 rounded-full flex items-center justify-center text-[8px] text-white font-bold">
+                    <div 
+                      className="w-5 h-5 rounded-full flex items-center justify-center text-[8px] text-white font-bold"
+                      style={{ backgroundColor: getTokenColor(row.asset) }}
+                    >
                       {row.asset.slice(0, 1)}
                     </div>
                     <span className="font-semibold text-gray-900">{row.asset}</span>
                   </div>
                 </td>
-                <td className="py-2 px-3 text-right">
+                <td className="py-2.5 px-3 text-right whitespace-nowrap">
                   <span className="font-medium text-gray-900">{row.price}</span>
-                  <span className={`ml-1 ${row.priceChange >= 0 ? 'text-emerald-500' : 'text-red-500'}`}>
+                  <span className={`ml-1 text-[10px] ${row.priceChange >= 0 ? 'text-emerald-500' : 'text-red-500'}`}>
                     {row.priceChange >= 0 ? '+' : ''}{row.priceChange}%
                   </span>
                 </td>
-                <td className="py-2 px-3 text-right">
+                <td className="py-2.5 px-3 text-right whitespace-nowrap">
                   <span className="font-medium text-gray-900">{row.volume}</span>
-                  <span className={`ml-1 ${row.volumeChange >= 0 ? 'text-emerald-500' : 'text-red-500'}`}>
+                  <span className={`ml-1 text-[10px] ${row.volumeChange >= 0 ? 'text-emerald-500' : 'text-red-500'}`}>
                     {row.volumeChange >= 0 ? '+' : ''}{row.volumeChange}%
                   </span>
                 </td>
-                <td className="py-2 px-3 text-right">
+                <td className="py-2.5 px-3 text-right whitespace-nowrap">
                   <span className={`font-semibold ${row.netflow.startsWith('+') ? 'text-emerald-500' : 'text-red-500'}`}>
                     {row.netflow}
                   </span>
-                  <span className={`ml-1 ${row.netflowChange >= 0 ? 'text-emerald-500' : 'text-red-500'}`}>
+                  <span className={`ml-1 text-[10px] ${row.netflowChange >= 0 ? 'text-emerald-500' : 'text-red-500'}`}>
                     {row.netflowChange >= 0 ? '+' : ''}{row.netflowChange}%
                   </span>
+                </td>
+                <td className="py-2.5 px-1">
                   {row.hasAnalyze && (
-                    <button className="ml-2 px-2 py-0.5 bg-blue-50 text-blue-600 text-[10px] font-medium rounded hover:bg-blue-100">
+                    <button className="px-2 py-0.5 bg-blue-50 text-blue-600 text-[10px] font-medium rounded hover:bg-blue-100">
                       Analyze
                     </button>
                   )}
