@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.cdnfonts.com/css/gilroy-bold');
 
 @tailwind base;
 @tailwind components;
@@ -7,36 +7,38 @@
 @layer base {
     :root {
         --background: 0 0% 100%;
-        --foreground: 222.2 84% 4.9%;
+        --foreground: 220 13% 13%;
         --card: 0 0% 100%;
-        --card-foreground: 222.2 84% 4.9%;
+        --card-foreground: 220 13% 13%;
         --popover: 0 0% 100%;
-        --popover-foreground: 222.2 84% 4.9%;
-        --primary: 0 0% 0%;
+        --popover-foreground: 220 13% 13%;
+        --primary: 220 13% 13%;
         --primary-foreground: 0 0% 100%;
-        --secondary: 210 40% 96.1%;
-        --secondary-foreground: 222.2 47.4% 11.2%;
-        --muted: 210 40% 96.1%;
-        --muted-foreground: 215.4 16.3% 46.9%;
-        --accent: 210 40% 96.1%;
-        --accent-foreground: 222.2 47.4% 11.2%;
-        --destructive: 0 84.2% 60.2%;
-        --destructive-foreground: 0 0% 98%;
-        --border: 214.3 31.8% 91.4%;
-        --input: 214.3 31.8% 91.4%;
-        --ring: 222.2 84% 4.9%;
+        --secondary: 220 14% 96%;
+        --secondary-foreground: 220 13% 13%;
+        --muted: 220 14% 96%;
+        --muted-foreground: 220 9% 46%;
+        --accent: 220 14% 96%;
+        --accent-foreground: 220 13% 13%;
+        --destructive: 0 84% 60%;
+        --destructive-foreground: 0 0% 100%;
+        --border: 220 13% 91%;
+        --input: 220 13% 91%;
+        --ring: 220 13% 13%;
         --radius: 0.5rem;
+        
+        /* Brand colors */
+        --brand-blue: 217 91% 60%;
+        --brand-green: 142 71% 45%;
+        --brand-red: 0 84% 60%;
+        --brand-orange: 25 95% 53%;
+        --brand-purple: 262 83% 58%;
         
         /* Chain colors */
         --ethereum: 230 70% 65%;
         --bsc: 43 89% 57%;
         --polygon: 269 67% 58%;
         --arbitrum: 217 30% 24%;
-        
-        /* Status colors */
-        --success: 158 64% 52%;
-        --warning: 38 92% 50%;
-        --critical: 0 84% 60%;
     }
 }
 
@@ -47,155 +49,295 @@
     
     body {
         @apply bg-background text-foreground antialiased;
-        font-family: 'Manrope', sans-serif;
+        font-family: 'Gilroy', -apple-system, BlinkMacSystemFont, sans-serif;
     }
     
     h1, h2, h3, h4, h5, h6 {
-        font-family: 'IBM Plex Sans', sans-serif;
-        @apply tracking-tight;
+        font-family: 'Gilroy', sans-serif;
+        font-weight: 700;
     }
     
     code, pre, .mono {
-        font-family: 'JetBrains Mono', monospace;
+        font-family: 'SF Mono', 'Fira Code', monospace;
     }
 }
 
+/* Arkham-style components */
 @layer components {
-    .glass-header {
-        @apply bg-white/80 backdrop-blur-md border-b border-border/50 sticky top-0 z-50;
+    /* Header styles */
+    .arkham-header {
+        @apply h-14 bg-white border-b border-gray-100 flex items-center px-4;
+        position: sticky;
+        top: 0;
+        z-index: 100;
     }
     
-    .card-hover {
-        @apply transition-shadow duration-200 hover:shadow-md;
+    /* Sidebar styles */
+    .arkham-sidebar {
+        @apply w-60 bg-white border-r border-gray-100 h-screen overflow-y-auto;
+        position: fixed;
+        left: 0;
+        top: 56px;
     }
     
-    .chain-badge-ethereum {
-        @apply bg-[#627EEA]/10 text-[#627EEA] border-[#627EEA]/20;
+    .arkham-sidebar-item {
+        @apply flex items-center gap-3 px-4 py-2.5 text-sm text-gray-600 hover:bg-gray-50 cursor-pointer transition-colors;
     }
     
-    .chain-badge-bsc {
-        @apply bg-[#F3BA2F]/10 text-[#F3BA2F] border-[#F3BA2F]/20;
+    .arkham-sidebar-item-active {
+        @apply bg-gray-50 text-gray-900 font-medium;
     }
     
-    .chain-badge-polygon {
-        @apply bg-[#8247E5]/10 text-[#8247E5] border-[#8247E5]/20;
+    .arkham-sidebar-section {
+        @apply px-4 py-2 text-xs font-semibold text-gray-400 uppercase tracking-wider;
     }
     
-    .chain-badge-arbitrum {
-        @apply bg-[#2D374B]/10 text-[#2D374B] border-[#2D374B]/20;
+    /* Main content */
+    .arkham-main {
+        @apply ml-60 pt-14 min-h-screen bg-gray-50/50;
     }
     
-    .severity-normal {
-        @apply bg-blue-50 text-blue-700 border-blue-200;
+    /* Dashboard cards */
+    .arkham-card {
+        @apply bg-white rounded-lg border border-gray-100 overflow-hidden;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.02);
     }
     
-    .severity-important {
-        @apply bg-amber-50 text-amber-700 border-amber-200;
+    .arkham-card:hover {
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
     }
     
-    .severity-critical {
-        @apply bg-red-50 text-red-700 border-red-200;
+    .arkham-card-header {
+        @apply px-4 py-3 border-b border-gray-100 flex items-center justify-between;
     }
     
-    .truncate-address {
-        @apply font-mono text-sm;
-        max-width: 120px;
+    .arkham-card-title {
+        @apply text-sm font-semibold text-gray-900;
     }
     
-    .stat-card {
-        @apply bg-white rounded-lg border border-border p-4 transition-all duration-200;
+    .arkham-card-body {
+        @apply p-4;
     }
     
-    .stat-card:hover {
-        @apply shadow-md border-primary/10;
+    /* Stats */
+    .arkham-stat {
+        @apply flex flex-col;
     }
     
-    .flow-node {
-        @apply rounded-lg border-2 bg-white shadow-sm px-3 py-2;
+    .arkham-stat-label {
+        @apply text-xs text-gray-500 mb-1;
     }
     
-    .flow-node-exchange {
-        @apply border-[#627EEA] bg-[#627EEA]/5;
+    .arkham-stat-value {
+        @apply text-lg font-bold text-gray-900;
     }
     
-    .flow-node-wallet {
-        @apply border-slate-400 bg-slate-50;
+    .arkham-stat-change {
+        @apply text-xs font-medium;
     }
     
-    .flow-node-contract {
-        @apply border-emerald-500 bg-emerald-50;
+    .arkham-stat-change-positive {
+        @apply text-emerald-500;
     }
     
-    .flow-node-pool {
-        @apply border-purple-500 bg-purple-50;
+    .arkham-stat-change-negative {
+        @apply text-red-500;
     }
     
-    .sidebar-link {
-        @apply flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors;
-        @apply text-muted-foreground hover:text-foreground hover:bg-secondary;
+    /* Tags/Badges */
+    .arkham-tag {
+        @apply inline-flex items-center px-2 py-0.5 rounded text-xs font-medium;
     }
     
-    .sidebar-link-active {
-        @apply bg-secondary text-foreground;
+    .arkham-tag-blue {
+        @apply bg-blue-50 text-blue-600;
     }
     
-    .data-table {
+    .arkham-tag-green {
+        @apply bg-emerald-50 text-emerald-600;
+    }
+    
+    .arkham-tag-red {
+        @apply bg-red-50 text-red-600;
+    }
+    
+    .arkham-tag-gray {
+        @apply bg-gray-100 text-gray-600;
+    }
+    
+    .arkham-tag-purple {
+        @apply bg-purple-50 text-purple-600;
+    }
+    
+    .arkham-tag-orange {
+        @apply bg-orange-50 text-orange-600;
+    }
+    
+    /* Chain badges */
+    .chain-eth {
+        @apply bg-blue-50 text-blue-600;
+    }
+    
+    .chain-bsc {
+        @apply bg-yellow-50 text-yellow-600;
+    }
+    
+    .chain-polygon {
+        @apply bg-purple-50 text-purple-600;
+    }
+    
+    .chain-arb {
+        @apply bg-slate-100 text-slate-600;
+    }
+    
+    /* Entity types */
+    .entity-exchange {
+        @apply text-blue-500;
+    }
+    
+    .entity-fund {
+        @apply text-purple-500;
+    }
+    
+    .entity-whale {
+        @apply text-emerald-500;
+    }
+    
+    .entity-contract {
+        @apply text-orange-500;
+    }
+    
+    /* Tables */
+    .arkham-table {
         @apply w-full text-sm;
     }
     
-    .data-table th {
-        @apply text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider py-3 px-4 border-b;
+    .arkham-table th {
+        @apply text-left text-xs font-medium text-gray-500 py-2 px-3 bg-gray-50/50;
     }
     
-    .data-table td {
-        @apply py-3 px-4 border-b border-border/50;
+    .arkham-table td {
+        @apply py-2.5 px-3 border-b border-gray-50;
     }
     
-    .data-table tr:hover td {
-        @apply bg-muted/30;
-    }
-}
-
-@layer utilities {
-    .scrollbar-thin {
-        scrollbar-width: thin;
+    .arkham-table tr:hover td {
+        @apply bg-gray-50/50;
     }
     
-    .scrollbar-thin::-webkit-scrollbar {
+    /* Search */
+    .arkham-search {
+        @apply flex items-center gap-2 bg-gray-50 rounded-lg px-3 py-2 text-sm;
+    }
+    
+    .arkham-search input {
+        @apply bg-transparent border-none outline-none flex-1 text-gray-900 placeholder-gray-400;
+    }
+    
+    /* Buttons */
+    .arkham-btn {
+        @apply inline-flex items-center justify-center px-3 py-1.5 text-sm font-medium rounded-md transition-colors;
+    }
+    
+    .arkham-btn-primary {
+        @apply bg-gray-900 text-white hover:bg-gray-800;
+    }
+    
+    .arkham-btn-secondary {
+        @apply bg-gray-100 text-gray-700 hover:bg-gray-200;
+    }
+    
+    .arkham-btn-ghost {
+        @apply text-gray-600 hover:bg-gray-100 hover:text-gray-900;
+    }
+    
+    /* Address display */
+    .arkham-address {
+        @apply font-mono text-sm text-gray-600;
+    }
+    
+    /* Dashboard grid */
+    .arkham-grid {
+        @apply grid gap-4;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    }
+    
+    /* Popular dashboard card */
+    .arkham-dashboard-card {
+        @apply bg-white rounded-xl border border-gray-100 p-4 hover:shadow-md transition-shadow cursor-pointer;
+    }
+    
+    .arkham-dashboard-card-title {
+        @apply font-semibold text-gray-900 mb-1;
+    }
+    
+    .arkham-dashboard-card-desc {
+        @apply text-sm text-gray-500 line-clamp-2;
+    }
+    
+    .arkham-dashboard-card-meta {
+        @apply flex items-center gap-4 mt-3 text-xs text-gray-400;
+    }
+    
+    /* Flow visualization */
+    .arkham-flow-item {
+        @apply flex items-center justify-between py-2 px-3 rounded-lg hover:bg-gray-50 cursor-pointer;
+    }
+    
+    .arkham-flow-amount {
+        @apply font-semibold text-gray-900;
+    }
+    
+    .arkham-flow-entity {
+        @apply text-sm text-gray-600;
+    }
+    
+    /* Scrollbar */
+    .arkham-scrollbar::-webkit-scrollbar {
         width: 6px;
         height: 6px;
     }
     
-    .scrollbar-thin::-webkit-scrollbar-track {
+    .arkham-scrollbar::-webkit-scrollbar-track {
         @apply bg-transparent;
     }
     
-    .scrollbar-thin::-webkit-scrollbar-thumb {
-        @apply bg-border rounded-full;
+    .arkham-scrollbar::-webkit-scrollbar-thumb {
+        @apply bg-gray-200 rounded-full;
     }
     
-    .scrollbar-thin::-webkit-scrollbar-thumb:hover {
-        @apply bg-muted-foreground/30;
+    .arkham-scrollbar::-webkit-scrollbar-thumb:hover {
+        @apply bg-gray-300;
     }
+}
+
+/* Animation utilities */
+@keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slide-up {
+    from { 
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to { 
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in {
+    animation: fade-in 0.2s ease-out;
+}
+
+.animate-slide-up {
+    animation: slide-up 0.3s ease-out;
 }
 
 /* Debug wrapper */
 @layer base {
     [data-debug-wrapper="true"] {
         display: contents !important;
-    }
-
-    [data-debug-wrapper="true"] > * {
-        margin-left: inherit;
-        margin-right: inherit;
-        margin-top: inherit;
-        margin-bottom: inherit;
-        padding-left: inherit;
-        padding-right: inherit;
-        padding-top: inherit;
-        padding-bottom: inherit;
-        column-gap: inherit;
-        row-gap: inherit;
-        gap: inherit;
     }
 }
