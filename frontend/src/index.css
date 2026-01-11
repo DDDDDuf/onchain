@@ -50,11 +50,11 @@
     
     body {
         @apply bg-background text-foreground antialiased;
-        font-family: 'Gilroy', -apple-system, BlinkMacSystemFont, sans-serif;
+        font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
     }
     
     h1, h2, h3, h4, h5, h6 {
-        font-family: 'Gilroy', sans-serif;
+        font-family: 'Plus Jakarta Sans', sans-serif;
         font-weight: 700;
     }
     
