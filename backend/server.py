@@ -389,10 +389,10 @@ def generate_flow_graph(network: str = None, limit: int = 20) -> dict:
         num_links = random.randint(1, 2)
         possible_targets = [j for j in range(len(nodes)) if j != i]
         target_indices = random.sample(possible_targets, min(num_links, len(possible_targets)))
-        for target in targets:
+        for target_idx in target_indices:
             links.append({
-                "source": nodes[i]["id"],
-                "target": target["id"],
+                "source": i,
+                "target": target_idx,
                 "value": round(random.uniform(10000, 1000000), 2),
                 "tx_count": random.randint(1, 100)
             })
