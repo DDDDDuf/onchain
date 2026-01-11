@@ -1,53 +1,37 @@
-import { useEffect } from "react";
 import "@/App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import axios from "axios";
-
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
-const API = `${BACKEND_URL}/api`;
-
-const Home = () => {
-  const helloWorldApi = async () => {
-    try {
-      const response = await axios.get(`${API}/`);
-      console.log(response.data.message);
-    } catch (e) {
-      console.error(e, `errored out requesting / api`);
-    }
-  };
-
-  useEffect(() => {
-    helloWorldApi();
-  }, []);
-
-  return (
-    <div>
-      <header className="App-header">
-        <a
-          className="App-link"
-          href="https://emergent.sh"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <img src="https://avatars.githubusercontent.com/in/1201222?s=120&u=2686cf91179bbafbc7a71bfbc43004cf9ae1acea&v=4" />
-        </a>
-        <p className="mt-5">Building something incredible ~!</p>
-      </header>
-    </div>
-  );
-};
+import { Toaster } from "./components/ui/sonner";
+import Layout from "./components/Layout";
+import Dashboard from "./pages/Dashboard";
+import FlowGraph from "./pages/FlowGraph";
+import Entities from "./pages/Entities";
+import EntityProfile from "./pages/EntityProfile";
+import Transactions from "./pages/Transactions";
+import TransactionView from "./pages/TransactionView";
+import Pools from "./pages/Pools";
+import PoolView from "./pages/PoolView";
+import Alerts from "./pages/Alerts";
+import SearchResults from "./pages/SearchResults";
 
 function App() {
   return (
-    <div className="App">
-      <BrowserRouter>
+    <BrowserRouter>
+      <Layout>
         <Routes>
-          <Route path="/" element={<Home />}>
-            <Route index element={<Home />} />
-          </Route>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/flow" element={<FlowGraph />} />
+          <Route path="/entities" element={<Entities />} />
+          <Route path="/entity/:address" element={<EntityProfile />} />
+          <Route path="/transactions" element={<Transactions />} />
+          <Route path="/tx/:hash" element={<TransactionView />} />
+          <Route path="/pools" element={<Pools />} />
+          <Route path="/pool/:address" element={<PoolView />} />
+          <Route path="/alerts" element={<Alerts />} />
+          <Route path="/search" element={<SearchResults />} />
         </Routes>
-      </BrowserRouter>
-    </div>
+      </Layout>
+      <Toaster position="top-right" />
+    </BrowserRouter>
   );
 }
 
