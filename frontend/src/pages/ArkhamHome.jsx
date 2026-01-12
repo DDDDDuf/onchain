@@ -12,104 +12,128 @@ import {
   Filter,
   Copy,
   MessageCircle,
-  Globe
+  Globe,
+  Link2,
+  ArrowUpRight
 } from 'lucide-react';
 
 // ============ MOCK DATA ============
 
-// Top Entities for carousel
-const topEntities = [
-  { id: 1, name: "dingaling", portfolio: "$4.47M", change: 0.48, isPositive: true, image: "🎰" },
-  { id: 2, name: "@Cbb0fe", portfolio: "$12.2M", change: 0.79, isPositive: true, image: "🔵" },
-  { id: 3, name: "World Liberty Fi", portfolio: "$8B", change: -0.53, isPositive: false, image: "🗽" },
-  { id: 4, name: "Ostium", portfolio: "$62.85M", change: 0.00028, isPositive: true, image: "⭕" },
-  { id: 5, name: "Donald Trump", portfolio: "$1.02M", change: -0.5, isPositive: false, image: "🇺🇸" },
-  { id: 6, name: "Multisig Exploit Hacker", portfolio: "$317.95M", change: 0.89, isPositive: true, image: "🏴‍☠️" },
-  { id: 7, name: "Paradex", portfolio: "$192.27M", change: 1.23, isPositive: true, image: "📊" },
-  { id: 8, name: "Binance", portfolio: "$89.2B", change: 0.34, isPositive: true, image: "🟡" },
+// Trending Insights
+const trendingInsights = [
+  { 
+    id: 1, 
+    type: "On-Chain Trade", 
+    title: "Ethereum: Whale Closes $15.1M Short on Hyperliquid Amidst...", 
+    tokens: 7, 
+    entities: 22,
+    time: "1 day ago",
+    updates: 5,
+    tags: []
+  },
+  { 
+    id: 2, 
+    type: "News", 
+    title: "Solana Surges on X Integration News: Volume Spikes to $68M as...", 
+    tokens: 3, 
+    entities: 8,
+    time: "1 hour ago",
+    updates: 8,
+    tags: ["Important", "Bullish", "Partnership"]
+  },
+  { 
+    id: 3, 
+    type: "Macroeconomic", 
+    title: "Bitcoin ETF Outflows Reach $500M as Institutional Investors...", 
+    tokens: 6, 
+    entities: 4,
+    time: "3 hours ago",
+    updates: 12,
+    tags: []
+  },
 ];
 
-// Transfers data with chain icons
+// Exchange Flows Data
+const exchangeFlows = [
+  { asset: "AWE", icon: "🔵", price: "$0.055", priceChange: -4.41, volume: "$814.9K", volumeChange: -39.5, netflow: "+$796.88K", netflowChange: -38.88 },
+  { asset: "BARD", icon: "🟡", price: "$0.79", priceChange: 0.82, volume: "$627.94K", volumeChange: 131.24, netflow: "+$610.87K", netflowChange: 129.78 },
+  { asset: "AXS", icon: "🔴", price: "$0.95", priceChange: -0.48, volume: "$419.26K", volumeChange: -38.44, netflow: "+$375.59K", netflowChange: -37.97 },
+  { asset: "JASMY", icon: "🟠", price: "$0.0089", priceChange: 2.44, volume: "$2.81M", volumeChange: 149, netflow: "+$2.44M", netflowChange: 168.86 },
+  { asset: "CTC", icon: "⚪", price: "$0.29", priceChange: 3.69, volume: "$2.83M", volumeChange: -14.34, netflow: "+$2.34M", netflowChange: -12.44 },
+  { asset: "PYTH", icon: "🟣", price: "$0.066", priceChange: -1.85, volume: "$1.09M", volumeChange: -65.78, netflow: "+$890.46K", netflowChange: -65.47, hasLink: true },
+  { asset: "ZRX", icon: "⬜", price: "$0.13", priceChange: -5.26, volume: "$1.16M", volumeChange: 129.21, netflow: "+$947.44K", netflowChange: 116.12 },
+  { asset: "LPT", icon: "🟢", price: "$3.13", priceChange: -3.93, volume: "$1.07M", volumeChange: -67.07, netflow: "+$869.67K", netflowChange: -65.76 },
+  { asset: "OETH", icon: "🔵", price: "$3.11K", priceChange: 1.34, volume: "$914.09K", volumeChange: 522.17, netflow: "+$736.63K", netflowChange: 8.42 },
+  { asset: "ARKM", icon: "⬛", price: "$0.2", priceChange: -1.3, volume: "$367.39K", volumeChange: -94.64, netflow: "+$287.48K", netflowChange: -95.73, hasLink: true },
+];
+
+// Transfers data
 const transfersData = [
-  { id: 1, chain: "ethereum", time: "just now", from: "Velodrome Finance: CL Pool", fromAddr: "0x478", to: "Proxy (EIP-1967 Transparent)", toAddr: "0x63f", value: "7.388K", token: "USDC", tokenImg: "💵", usd: "$7.31K" },
-  { id: 2, chain: "tron", time: "just now", from: "TXdYrzohqvab5EfJ...", fromAddr: "", to: "TCv8tMpkcQUlmzn...", toAddr: "", value: "7.526", token: "TRX", tokenImg: "🔴", usd: "$2.25" },
-  { id: 3, chain: "tron", time: "just now", from: "TUvCAegEHMT8uo4...", fromAddr: "", to: "OKX Deposit", toAddr: "TGpSs", value: "83.333", token: "USDT", tokenImg: "💲", usd: "$83.33" },
-  { id: 4, chain: "tron", time: "just now", from: "TPiuaL2olYsrf0Z...", fromAddr: "", to: "TUY88nShbzE4nhi...", toAddr: "", value: "100.73", token: "USDT", tokenImg: "💲", usd: "$100.73" },
-  { id: 5, chain: "bsc", time: "just now", from: "PancakeSwap: V3 Pool", fromAddr: "0x74b", to: "0x1cb3b6813e382...", toAddr: "", value: "231.529", token: "VSN", tokenImg: "🟣", usd: "$20.49" },
-  { id: 6, chain: "ethereum", time: "just now", from: "Proxy (EIP-1967 Transparent)", fromAddr: "0xe97", to: "Velodrome Finance: CL Pool", toAddr: "0x40C", value: "15.807", token: "WETH", tokenImg: "💎", usd: "$46.72K" },
-  { id: 7, chain: "ethereum", time: "just now", from: "Velodrome Finance: CL Pool", fromAddr: "0x478", to: "Proxy (EIP-1967 Transparent)", toAddr: "0x63f", value: "6.886", token: "WETH", tokenImg: "💎", usd: "$18.7K" },
-  { id: 8, chain: "ethereum", time: "just now", from: "0x278d85bf05b94576...", fromAddr: "", to: "Wrapped Ether (WETH)", toAddr: "0x428", value: "0.980998", token: "ETH", tokenImg: "⟠", usd: "$3.11" },
-  { id: 9, chain: "sonic", time: "just now", from: "Fly (Prev. Magpie Protocol)", fromAddr: "0xdD8", to: "Null Address", toAddr: "0x000", value: "194.299", token: "WS", tokenImg: "🔷", usd: "$16.31" },
-  { id: 10, chain: "bsc", time: "just now", from: "PancakeSwap: V3 Pool", fromAddr: "0x74b", to: "0x425531F1fd219...", toAddr: "", value: "2.039K", token: "VSN", tokenImg: "🟣", usd: "$180.6" },
-  { id: 11, chain: "polygon", time: "31 seconds ago", from: "Polymarket: CTF Exchange", fromAddr: "0x4bF", to: "Polymarket: Conditional Tokens", toAddr: "0x4D9", value: "44", token: "USDC", tokenImg: "💵", usd: "$44" },
-  { id: 12, chain: "polygon", time: "31 seconds ago", from: "ERC1967Proxy", fromAddr: "0x3E5", to: "0x00e7bC8C93D10e...", toAddr: "", value: "51.35", token: "USDC", tokenImg: "💵", usd: "$51.35" },
+  { id: 1, chain: "ethereum", time: "just now", type: "out" },
+  { id: 2, chain: "tron", time: "just now", type: "out" },
+  { id: 3, chain: "ethereum", time: "just now", type: "in" },
+  { id: 4, chain: "tron", time: "just now", type: "out" },
+  { id: 5, chain: "tron", time: "just now", type: "out" },
+  { id: 6, chain: "ethereum", time: "just now", type: "out" },
+  { id: 7, chain: "ethereum", time: "just now", type: "out" },
+  { id: 8, chain: "bsc", time: "just now", type: "in" },
+  { id: 9, chain: "polygon", time: "just now", type: "out" },
+  { id: 10, chain: "ethereum", time: "just now", type: "out" },
+  { id: 11, chain: "bsc", time: "just now", type: "out" },
+  { id: 12, chain: "ethereum", time: "just now", type: "out" },
+  { id: 13, chain: "tron", time: "just now", type: "in" },
+  { id: 14, chain: "ethereum", time: "just now", type: "out" },
+  { id: 15, chain: "polygon", time: "30 seconds ago", type: "out" },
 ];
 
-// Chain colors and icons
+// Chain config
 const chainConfig = {
-  ethereum: { color: "#627EEA", name: "Ethereum", icon: "⟠" },
-  bsc: { color: "#F3BA2F", name: "BSC", icon: "◈" },
-  polygon: { color: "#8247E5", name: "Polygon", icon: "⬡" },
-  arbitrum: { color: "#2D374B", name: "Arbitrum", icon: "◇" },
-  tron: { color: "#FF0013", name: "Tron", icon: "◆" },
-  sonic: { color: "#0066FF", name: "Sonic", icon: "🔵" },
-};
-
-// Token colors
-const tokenColors = {
-  "USDC": "#2775CA",
-  "USDT": "#26A17B",
-  "TRX": "#FF0013",
-  "VSN": "#8B5CF6",
-  "WETH": "#627EEA",
-  "ETH": "#627EEA",
-  "WS": "#0066FF",
+  ethereum: { color: "#627EEA", name: "Ethereum" },
+  bsc: { color: "#F3BA2F", name: "BSC" },
+  polygon: { color: "#8247E5", name: "Polygon" },
+  tron: { color: "#FF0013", name: "Tron" },
 };
 
 // ============ COMPONENTS ============
 
 // Top Banner
 const TopBanner = ({ onClose }) => (
-  <div className="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 text-white py-2 px-4 flex items-center justify-center relative" data-testid="top-banner">
-    <div className="flex items-center gap-2 text-sm">
-      <span>Sign Up to Earn Up To $100 on The Arkham Exchange</span>
-      <button className="flex items-center gap-1 px-3 py-1 bg-white/10 hover:bg-white/20 rounded text-xs font-medium transition-colors">
+  <div className="bg-[#0d1117] text-white py-2.5 px-4 flex items-center justify-center relative border-b border-gray-800" data-testid="top-banner">
+    <div className="flex items-center gap-3 text-sm">
+      <span className="text-gray-300">Sign Up to Earn Up To $100 on The Arkham Exchange</span>
+      <button className="flex items-center gap-1.5 px-3 py-1 bg-white/10 hover:bg-white/20 rounded text-xs font-medium transition-colors">
         Trade Now
         <ExternalLink className="w-3 h-3" />
       </button>
     </div>
-    <button onClick={onClose} className="absolute right-4 p-1 hover:bg-white/10 rounded">
-      <X className="w-4 h-4" />
+    <button onClick={onClose} className="absolute right-4 p-1 hover:bg-white/10 rounded transition-colors">
+      <X className="w-4 h-4 text-gray-400" />
     </button>
   </div>
 );
 
-// Header with full navigation
+// Header
 const Header = () => (
-  <header className="bg-white border-b border-gray-200 sticky top-0 z-50" data-testid="header">
-    <div className="h-14 px-4 flex items-center justify-between">
+  <header className="bg-[#0d1117] border-b border-gray-800 sticky top-0 z-50" data-testid="header">
+    <div className="h-12 px-4 flex items-center justify-between">
       {/* Left - Logo and Nav */}
-      <div className="flex items-center gap-6">
-        {/* Logo */}
-        <a href="/" className="flex items-center gap-2 text-xl font-black tracking-tight text-gray-900" data-testid="logo">
-          <div className="w-8 h-8 bg-gray-900 rounded flex items-center justify-center">
-            <span className="text-white text-xs font-bold">A</span>
+      <div className="flex items-center gap-5">
+        <a href="/" className="flex items-center gap-2 text-lg font-black tracking-tight text-white" data-testid="logo">
+          <div className="w-7 h-7 bg-white rounded flex items-center justify-center">
+            <span className="text-black text-xs font-black">A</span>
           </div>
           ARKHAM
         </a>
         
-        {/* Main Nav */}
-        <nav className="flex items-center gap-1">
-          <a href="/" className="px-3 py-1.5 text-sm font-medium text-gray-900 bg-gray-100 rounded">Intel</a>
-          <a href="#" className="px-3 py-1.5 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded">Exchange</a>
-          <a href="#" className="px-3 py-1.5 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded flex items-center gap-1">
+        <nav className="flex items-center gap-0.5">
+          <a href="/" className="px-3 py-1.5 text-sm font-medium text-white">Intel</a>
+          <a href="#" className="px-3 py-1.5 text-sm font-medium text-gray-400 hover:text-white">Exchange</a>
+          <a href="#" className="px-3 py-1.5 text-sm font-medium text-gray-400 hover:text-white flex items-center gap-1">
             Swap
-            <span className="text-[10px] px-1.5 py-0.5 bg-emerald-100 text-emerald-600 rounded font-medium">New</span>
+            <span className="text-[10px] px-1.5 py-0.5 bg-blue-500/20 text-blue-400 rounded font-medium">New</span>
           </a>
-          
-          {/* Dropdowns */}
           {['Markets', 'Custom', 'Tools'].map(item => (
-            <button key={item} className="px-3 py-1.5 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded flex items-center gap-1">
+            <button key={item} className="px-3 py-1.5 text-sm font-medium text-gray-400 hover:text-white flex items-center gap-1">
               {item}
               <ChevronDown className="w-3 h-3" />
             </button>
@@ -118,221 +142,255 @@ const Header = () => (
       </div>
       
       {/* Center - Search */}
-      <div className="flex-1 max-w-xl mx-8">
-        <div className="flex items-center gap-2 bg-gray-50 rounded-lg px-4 py-2 border border-gray-100">
-          <Search className="w-4 h-4 text-gray-400" />
+      <div className="flex-1 max-w-lg mx-6">
+        <div className="flex items-center gap-2 bg-[#161b22] rounded px-3 py-1.5 border border-gray-700">
+          <Search className="w-4 h-4 text-gray-500" />
           <input 
             type="text" 
             placeholder="Search for tokens, addresses, entities..."
-            className="flex-1 bg-transparent border-none outline-none text-sm text-gray-900 placeholder-gray-400"
+            className="flex-1 bg-transparent border-none outline-none text-sm text-white placeholder-gray-500"
             data-testid="search-input"
           />
-          <kbd className="hidden sm:inline-flex h-5 items-center px-1.5 rounded border bg-white text-[10px] font-medium text-gray-400">/</kbd>
+          <kbd className="h-5 px-1.5 rounded bg-gray-700 text-[10px] font-medium text-gray-400 flex items-center">/</kbd>
         </div>
       </div>
       
       {/* Right - User Nav */}
-      <div className="flex items-center gap-1">
-        <a href="#" className="px-3 py-1.5 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded">Profile</a>
-        <a href="#" className="px-3 py-1.5 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded">Points</a>
-        <a href="#" className="px-3 py-1.5 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded">Private Labels</a>
-        <a href="#" className="px-3 py-1.5 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded">API</a>
-        <button className="px-3 py-1.5 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded flex items-center gap-1">
+      <div className="flex items-center gap-0.5">
+        <a href="#" className="px-2.5 py-1.5 text-sm font-medium text-gray-400 hover:text-white">Profile</a>
+        <a href="#" className="px-2.5 py-1.5 text-sm font-medium text-gray-400 hover:text-white">Points</a>
+        <a href="#" className="px-2.5 py-1.5 text-sm font-medium text-gray-400 hover:text-white">Private Labels</a>
+        <a href="#" className="px-2.5 py-1.5 text-sm font-medium text-gray-400 hover:text-white">API</a>
+        <button className="px-2.5 py-1.5 text-sm font-medium text-gray-400 hover:text-white flex items-center gap-1">
           Help
           <ChevronDown className="w-3 h-3" />
         </button>
-        <button className="p-2 text-gray-600 hover:bg-gray-50 rounded">
+        <button className="p-2 text-gray-400 hover:text-white">
           <Globe className="w-4 h-4" />
         </button>
-        <a href="#" className="px-3 py-1.5 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded">Login</a>
-        <a href="#" className="px-4 py-1.5 text-sm font-medium text-white bg-gray-900 hover:bg-gray-800 rounded">Sign Up</a>
+        <a href="#" className="px-2.5 py-1.5 text-sm font-medium text-gray-400 hover:text-white">Login</a>
+        <a href="#" className="ml-1 px-3 py-1.5 text-sm font-medium text-white bg-blue-600 hover:bg-blue-500 rounded">Sign Up</a>
       </div>
     </div>
   </header>
 );
 
-// Entity Card for carousel
-const EntityCard = ({ entity }) => (
-  <a 
-    href={`#entity-${entity.id}`}
-    className="flex-shrink-0 w-[200px] bg-white border border-gray-200 rounded-xl p-4 hover:shadow-lg hover:border-gray-300 transition-all cursor-pointer group"
-    data-testid={`entity-card-${entity.id}`}
-  >
-    <div className="flex items-center gap-3 mb-3">
-      <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-xl">
-        {entity.image}
+// Trending Insights Section
+const TrendingInsights = () => (
+  <div className="mb-6" data-testid="trending-insights">
+    <h2 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">TRENDING INSIGHTS</h2>
+    <div className="grid grid-cols-3 gap-3">
+      {trendingInsights.map(insight => (
+        <div 
+          key={insight.id} 
+          className="bg-[#161b22] border border-gray-800 rounded-lg p-4 hover:border-gray-600 transition-colors cursor-pointer"
+        >
+          <div className="flex items-center gap-2 mb-2">
+            <span className="text-[10px] px-2 py-0.5 bg-gray-700 text-gray-300 rounded">{insight.type}</span>
+            {insight.tags.map(tag => (
+              <span 
+                key={tag} 
+                className={`text-[10px] px-2 py-0.5 rounded ${
+                  tag === 'Important' ? 'bg-orange-500/20 text-orange-400' :
+                  tag === 'Bullish' ? 'bg-green-500/20 text-green-400' :
+                  'bg-blue-500/20 text-blue-400'
+                }`}
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+          <h3 className="text-sm text-white font-medium mb-3 line-clamp-2">{insight.title}</h3>
+          <div className="flex items-center justify-between text-[10px] text-gray-500">
+            <div className="flex items-center gap-3">
+              <span>Tokens: <span className="text-cyan-400">{insight.tokens}</span></span>
+              <span>Entities: <span className="text-purple-400 inline-flex items-center gap-0.5"><span className="w-2 h-2 bg-purple-400 rounded-sm"></span>{insight.entities}</span></span>
+            </div>
+            <span>{insight.time} | {insight.updates} updates</span>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+);
+
+// Arkham Exchange Tokens (BTC Card)
+const ExchangeTokens = () => (
+  <div className="mb-6" data-testid="exchange-tokens">
+    <h2 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">ARKHAM EXCHANGE TOKENS</h2>
+    <div className="bg-[#161b22] border border-gray-800 rounded-lg p-5">
+      <div className="flex items-start justify-between">
+        <div className="flex items-center gap-4">
+          {/* BTC Logo */}
+          <div className="w-14 h-14 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center">
+            <span className="text-white text-2xl font-bold">₿</span>
+          </div>
+          <div>
+            <h3 className="text-xl font-bold text-white">BTC</h3>
+            <div className="flex items-center gap-2 mt-1">
+              <span className="text-2xl font-bold text-orange-400">$90,843.50</span>
+              <span className="text-xs text-green-400">+0.5%</span>
+            </div>
+          </div>
+        </div>
+        <a href="#" className="flex items-center gap-1.5 text-cyan-400 text-sm hover:text-cyan-300 transition-colors">
+          Trade Now on Arkham Exchange
+          <ArrowUpRight className="w-4 h-4" />
+        </a>
       </div>
-      <div className="flex-1 min-w-0">
-        <div className="font-semibold text-gray-900 truncate text-sm">{entity.name}</div>
+      
+      <div className="grid grid-cols-4 gap-6 mt-5 pt-4 border-t border-gray-700">
+        <div>
+          <div className="text-[10px] text-gray-500 uppercase tracking-wider mb-1">24H VOLUME</div>
+          <div className="text-sm text-white font-medium">$19,921,961,803.00</div>
+        </div>
+        <div>
+          <div className="text-[10px] text-gray-500 uppercase tracking-wider mb-1">MARKET CAP</div>
+          <div className="text-sm text-white font-medium">$1,814,567,934,866.50</div>
+        </div>
+        <div>
+          <div className="text-[10px] text-gray-500 uppercase tracking-wider mb-1">ALL TIME HIGH</div>
+          <div className="text-sm text-white font-medium">$126,080.00</div>
+        </div>
+        <div>
+          <div className="text-[10px] text-gray-500 uppercase tracking-wider mb-1">ALL TIME LOW</div>
+          <div className="text-sm text-white font-medium">$67.81</div>
+        </div>
       </div>
-      <div className="w-4 h-4 bg-blue-500 rounded-full flex items-center justify-center">
-        <span className="text-white text-[8px]">✓</span>
+    </div>
+  </div>
+);
+
+// Exchange Flows Table
+const ExchangeFlowsTable = () => (
+  <div data-testid="exchange-flows">
+    <div className="flex items-center justify-between mb-3">
+      <h2 className="text-xs font-bold text-gray-400 uppercase tracking-wider">EXCHANGE FLOWS</h2>
+      <div className="flex items-center gap-2">
+        <button className="text-[10px] px-2.5 py-1 rounded border border-cyan-500 text-cyan-400">CEX+DEX</button>
+        <button className="text-[10px] px-2.5 py-1 rounded border border-cyan-500 text-cyan-400">MARKET CAP ≥ $100M</button>
+        <button className="text-[10px] px-2.5 py-1 rounded border border-cyan-500 text-cyan-400">VOLUME ≥ $100K</button>
+        <button className="text-[10px] px-2.5 py-1 rounded border border-orange-500 text-orange-400">SORT BY NETFLOW/VOLUME</button>
       </div>
     </div>
     
-    <div className="flex items-center gap-2">
-      <span className="text-lg font-bold text-gray-900">{entity.portfolio}</span>
-      <span className={`text-xs font-medium flex items-center gap-0.5 ${entity.isPositive ? 'text-emerald-500' : 'text-red-500'}`}>
-        {entity.isPositive ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
-        {entity.change}%
-      </span>
-    </div>
-  </a>
-);
-
-// Entities Carousel
-const EntitiesCarousel = () => {
-  const [scrollPosition, setScrollPosition] = useState(0);
-  
-  return (
-    <div className="relative" data-testid="entities-carousel">
-      <div className="flex gap-4 overflow-x-auto scrollbar-hide py-2 px-1">
-        {topEntities.map(entity => (
-          <EntityCard key={entity.id} entity={entity} />
-        ))}
-      </div>
-    </div>
-  );
-};
-
-// Chain Icon
-const ChainIcon = ({ chain }) => {
-  const config = chainConfig[chain] || chainConfig.ethereum;
-  return (
-    <div 
-      className="w-5 h-5 rounded-full flex items-center justify-center text-white text-[10px]"
-      style={{ backgroundColor: config.color }}
-      title={config.name}
-    >
-      {config.icon}
-    </div>
-  );
-};
-
-// Transfers Table
-const TransfersTable = () => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const totalPages = 625;
-  
-  return (
-    <div className="bg-white rounded-xl border border-gray-200 flex flex-col h-full" data-testid="transfers-table">
-      {/* Header */}
-      <div className="p-4 border-b border-gray-100">
-        <div className="flex items-center justify-between mb-3">
-          <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wider flex items-center gap-2">
-            <Filter className="w-3 h-3" />
-            FILTER FOR TRANSFERS
-          </h3>
-          
-          <div className="flex items-center gap-2">
-            <button className="text-[10px] font-semibold px-2.5 py-1 rounded bg-gray-900 text-white">ALL</button>
-            <button className="text-[10px] font-medium px-2.5 py-1 rounded bg-gray-100 text-gray-600 hover:bg-gray-200">USD ≥ $1</button>
-            <button className="text-[10px] font-medium px-2.5 py-1 rounded bg-blue-50 text-blue-600">SORT BY TIME</button>
-          </div>
-        </div>
-        
-        <div className="flex items-center gap-3 text-xs text-gray-500">
-          <span>TRANSFERS</span>
-          <span className="text-gray-300">|</span>
-          <span className="font-medium text-gray-700">{currentPage} / {totalPages}</span>
-          <button className="p-1 hover:bg-gray-100 rounded"><ChevronLeft className="w-3 h-3" /></button>
-          <button className="p-1 hover:bg-gray-100 rounded"><ChevronRight className="w-3 h-3" /></button>
-          <button className="p-1 hover:bg-gray-100 rounded"><RefreshCw className="w-3 h-3" /></button>
-        </div>
+    <div className="bg-[#161b22] border border-gray-800 rounded-lg overflow-hidden">
+      {/* Filter Row */}
+      <div className="flex items-center gap-3 px-4 py-2 border-b border-gray-800 text-[10px] text-gray-500">
+        <Filter className="w-3 h-3" />
+        <Link2 className="w-3 h-3" />
+        <span className="flex items-center gap-1"><Filter className="w-3 h-3" /> CEX/DEX</span>
+        <span className="flex items-center gap-1"><Filter className="w-3 h-3" /> MARKET CAP</span>
+        <span className="ml-auto">24H <ChevronDown className="w-3 h-3 inline" /></span>
       </div>
       
       {/* Table */}
-      <div className="flex-1 overflow-auto">
-        <table className="w-full text-xs">
-          <thead className="sticky top-0 bg-gray-50/95 backdrop-blur-sm">
-            <tr className="border-b border-gray-100">
-              <th className="w-8 py-2 px-2"></th>
-              <th className="text-left py-2 px-2 font-medium text-gray-400 text-[10px]">
-                <Filter className="w-3 h-3 inline mr-1" />
-                TIME
-              </th>
-              <th className="text-left py-2 px-2 font-medium text-gray-400 text-[10px]">
-                <Filter className="w-3 h-3 inline mr-1" />
-                FROM
-              </th>
-              <th className="text-left py-2 px-2 font-medium text-gray-400 text-[10px]">
-                <Filter className="w-3 h-3 inline mr-1" />
-                TO
-              </th>
-              <th className="text-right py-2 px-2 font-medium text-gray-400 text-[10px]">VALUE</th>
-              <th className="text-right py-2 px-2 font-medium text-gray-400 text-[10px]">TOKEN</th>
-              <th className="text-right py-2 px-2 font-medium text-gray-400 text-[10px]">USD</th>
+      <table className="w-full text-xs">
+        <thead>
+          <tr className="border-b border-gray-800 text-[10px] text-gray-500">
+            <th className="text-left py-2 px-4 font-medium"><Filter className="w-3 h-3 inline mr-1" />ASSET</th>
+            <th className="text-right py-2 px-4 font-medium">PRICE</th>
+            <th className="text-right py-2 px-4 font-medium"><Filter className="w-3 h-3 inline mr-1" />VOLUME</th>
+            <th className="text-right py-2 px-4 font-medium">NETFLOW <Filter className="w-3 h-3 inline ml-1" /></th>
+          </tr>
+        </thead>
+        <tbody>
+          {exchangeFlows.map((row, i) => (
+            <tr key={i} className="border-b border-gray-800/50 hover:bg-gray-800/30 cursor-pointer">
+              <td className="py-2.5 px-4">
+                <div className="flex items-center gap-2">
+                  <span className="text-base">{row.icon}</span>
+                  <span className="text-white font-medium">{row.asset}</span>
+                  {row.hasLink && <ArrowUpRight className="w-3 h-3 text-gray-500" />}
+                </div>
+              </td>
+              <td className="py-2.5 px-4 text-right">
+                <span className="text-white">{row.price}</span>
+                <span className={`ml-1 ${row.priceChange >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+                  {row.priceChange >= 0 ? '+' : ''}{row.priceChange}%
+                </span>
+              </td>
+              <td className="py-2.5 px-4 text-right">
+                <span className="text-white">{row.volume}</span>
+                <span className={`ml-1 ${row.volumeChange >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+                  {row.volumeChange >= 0 ? '+' : ''}{row.volumeChange}%
+                </span>
+              </td>
+              <td className="py-2.5 px-4 text-right">
+                <span className="text-green-400">{row.netflow}</span>
+                <span className={`ml-1 ${row.netflowChange >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+                  {row.netflowChange >= 0 ? '+' : ''}{row.netflowChange}%
+                </span>
+              </td>
             </tr>
-          </thead>
-          <tbody>
-            {transfersData.map((tx) => (
-              <tr key={tx.id} className="border-b border-gray-50 hover:bg-gray-50/70 cursor-pointer group">
-                <td className="py-2 px-2">
-                  <ChainIcon chain={tx.chain} />
-                </td>
-                <td className="py-2 px-2 text-gray-500 whitespace-nowrap">
-                  <a href="#" className="hover:text-blue-600">{tx.time}</a>
-                </td>
-                <td className="py-2 px-2 max-w-[180px]">
-                  <div className="flex items-center gap-1">
-                    <span className="text-blue-600 hover:underline cursor-pointer font-medium truncate">
-                      {tx.from}
-                    </span>
-                    {tx.fromAddr && <span className="text-gray-400">({tx.fromAddr})</span>}
-                    <button className="opacity-0 group-hover:opacity-100 p-0.5 hover:bg-gray-200 rounded">
-                      <Copy className="w-3 h-3 text-gray-400" />
-                    </button>
-                  </div>
-                </td>
-                <td className="py-2 px-2 max-w-[180px]">
-                  <div className="flex items-center gap-1">
-                    <span className="text-blue-600 hover:underline cursor-pointer font-medium truncate">
-                      {tx.to}
-                    </span>
-                    {tx.toAddr && <span className="text-gray-400">({tx.toAddr})</span>}
-                    <button className="opacity-0 group-hover:opacity-100 p-0.5 hover:bg-gray-200 rounded">
-                      <Copy className="w-3 h-3 text-gray-400" />
-                    </button>
-                  </div>
-                </td>
-                <td className="py-2 px-2 text-right font-medium text-gray-900 whitespace-nowrap">{tx.value}</td>
-                <td className="py-2 px-2 text-right">
-                  <span 
-                    className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-white text-[10px] font-bold"
-                    style={{ backgroundColor: tokenColors[tx.token] || '#6B7280' }}
-                  >
-                    {tx.token}
-                  </span>
-                </td>
-                <td className="py-2 px-2 text-right font-medium text-gray-500 whitespace-nowrap">{tx.usd}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </div>
+);
+
+// Filter for Transfers (Right Sidebar)
+const TransfersFilter = () => (
+  <div className="h-full flex flex-col" data-testid="transfers-filter">
+    <div className="flex items-center justify-between mb-3">
+      <h2 className="text-xs font-bold text-gray-400 uppercase tracking-wider">FILTER FOR TRANSFERS</h2>
+      <div className="flex items-center gap-2 text-[10px] text-gray-500">
+        <Filter className="w-3 h-3" />
+        <Link2 className="w-3 h-3" />
+        <span className="w-4 h-4 rounded bg-gray-700 flex items-center justify-center">⊙</span>
+        <span className="flex items-center gap-1"><Filter className="w-3 h-3" /> TIME <ChevronDown className="w-3 h-3" /></span>
       </div>
     </div>
-  );
-};
+    
+    <div className="bg-[#161b22] border border-gray-800 rounded-lg flex-1 overflow-hidden flex flex-col">
+      {/* Transfer list */}
+      <div className="flex-1 overflow-y-auto">
+        {transfersData.map(transfer => (
+          <div 
+            key={transfer.id} 
+            className="flex items-center gap-3 px-3 py-2 border-b border-gray-800/50 hover:bg-gray-800/30 cursor-pointer"
+          >
+            {/* Chain indicator */}
+            <div 
+              className={`w-5 h-5 rounded-full flex items-center justify-center ${
+                transfer.type === 'out' ? 'bg-red-500/20' : 'bg-blue-500/20'
+              }`}
+            >
+              {transfer.type === 'out' ? (
+                <TrendingDown className="w-3 h-3 text-red-400" />
+              ) : (
+                <TrendingUp className="w-3 h-3 text-blue-400" />
+              )}
+            </div>
+            
+            <span className="text-xs text-cyan-400">{transfer.time}</span>
+            
+            <div className="flex-1 flex items-center justify-end gap-1">
+              <span className="text-[10px] text-gray-500 truncate">...</span>
+              <div 
+                className="w-2 h-2 rounded-full" 
+                style={{ backgroundColor: chainConfig[transfer.chain]?.color || '#627EEA' }}
+              ></div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+);
 
 // Footer
 const Footer = () => (
-  <footer className="bg-white border-t border-gray-200 py-3 px-6" data-testid="footer">
-    <div className="flex items-center justify-between text-xs text-gray-500">
-      <div></div>
-      <div className="flex items-center gap-1 flex-wrap justify-center">
-        <a href="#" className="hover:text-gray-900">Arkham Codex</a>
-        <span>·</span>
-        <a href="#" className="hover:text-gray-900">API Docs</a>
-        <span>·</span>
-        <a href="mailto:support@arkm.com" className="hover:text-gray-900">support@arkm.com</a>
-        <span>-</span>
-        <span>ARKHAM INTELLIGENCE - © 2026</span>
-        <span>-</span>
-        <a href="#" className="hover:text-gray-900">terms of service</a>
-        <span>-</span>
-        <a href="#" className="hover:text-gray-900">privacy</a>
-      </div>
-      <div></div>
+  <footer className="bg-[#0d1117] border-t border-gray-800 py-2.5 px-4" data-testid="footer">
+    <div className="flex items-center justify-center gap-2 text-[10px] text-gray-500">
+      <a href="#" className="hover:text-white transition-colors">ARKHAM CODEX</a>
+      <span>·</span>
+      <a href="#" className="hover:text-white transition-colors">API DOCS</a>
+      <span>·</span>
+      <a href="mailto:support@arkm.com" className="hover:text-white transition-colors">SUPPORT@ARKM.COM</a>
+      <span>-</span>
+      <span>ARKHAM INTELLIGENCE</span>
     </div>
   </footer>
 );
@@ -340,18 +398,17 @@ const Footer = () => (
 // Chat Button
 const ChatButton = () => (
   <div className="fixed bottom-4 right-4 z-50" data-testid="chat-button">
-    <button className="flex items-center gap-2 bg-gray-900 text-white px-4 py-2 rounded-full shadow-lg hover:bg-gray-800 transition-colors">
+    <button className="flex items-center gap-2 bg-[#161b22] text-white px-4 py-2 rounded-full border border-gray-700 shadow-lg hover:bg-gray-800 transition-colors">
       <MessageCircle className="w-4 h-4" />
-      <span className="text-sm font-medium">CHAT ROOM: home</span>
-      <span className="text-xs bg-white/20 px-1.5 py-0.5 rounded">(9+)</span>
+      <span className="text-xs font-medium">CH...</span>
     </button>
   </div>
 );
 
 // Arkham Watermark
 const Watermark = () => (
-  <div className="absolute bottom-4 right-4 opacity-10 pointer-events-none">
-    <div className="text-6xl font-black text-gray-900">ARKHAM</div>
+  <div className="absolute bottom-20 left-1/2 -translate-x-1/2 opacity-[0.03] pointer-events-none">
+    <div className="text-[200px] font-black text-white tracking-tight">ARKHAM</div>
   </div>
 );
 
@@ -361,7 +418,7 @@ export default function ArkhamHome() {
   const [showBanner, setShowBanner] = useState(true);
   
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col" data-testid="arkham-home">
+    <div className="min-h-screen bg-[#0d1117] flex flex-col" data-testid="arkham-home">
       {/* Top Banner */}
       {showBanner && <TopBanner onClose={() => setShowBanner(false)} />}
       
@@ -369,24 +426,28 @@ export default function ArkhamHome() {
       <Header />
       
       {/* Main Content */}
-      <main className="flex-1 p-6">
-        <div className="max-w-[1600px] mx-auto">
-          {/* Title */}
-          <h1 className="text-4xl font-black text-gray-900 tracking-tight mb-6" data-testid="main-title">
-            ARKHAM INTEL
-          </h1>
-          
-          {/* Entities Carousel */}
-          <div className="mb-8">
-            <EntitiesCarousel />
-          </div>
-          
-          {/* Main Grid - Transfers Table */}
-          <div className="h-[600px] relative">
-            <TransfersTable />
-            <Watermark />
+      <main className="flex-1 flex relative overflow-hidden">
+        {/* Left Content - Main Area */}
+        <div className="flex-1 p-5 overflow-y-auto">
+          <div className="max-w-[1100px]">
+            {/* Trending Insights */}
+            <TrendingInsights />
+            
+            {/* Arkham Exchange Tokens */}
+            <ExchangeTokens />
+            
+            {/* Exchange Flows */}
+            <ExchangeFlowsTable />
           </div>
         </div>
+        
+        {/* Right Sidebar - Transfers */}
+        <div className="w-[320px] border-l border-gray-800 p-4 flex flex-col">
+          <TransfersFilter />
+        </div>
+        
+        {/* Watermark */}
+        <Watermark />
       </main>
       
       {/* Footer */}
