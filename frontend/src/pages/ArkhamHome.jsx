@@ -295,33 +295,33 @@ const ExchangeFlowsTable = () => (
         <tbody>
           {exchangeFlows.map((row, i) => (
             <tr key={i} className="border-b border-gray-50/50 hover:bg-gray-50/50 cursor-pointer transition-colors">
-              <td className="py-2.5 px-4">
-                <div className="flex items-center gap-2.5">
+              <td className="py-2 px-3">
+                <div className="flex items-center gap-2">
                   <div 
-                    className="w-7 h-7 rounded-full flex items-center justify-center"
+                    className="w-5 h-5 rounded-full flex items-center justify-center"
                     style={{ backgroundColor: assetColors[row.asset] || '#6B7280' }}
                   >
-                    <span className="text-white text-[9px] font-bold">{row.asset[0]}</span>
+                    <span className="text-white text-[7px] font-bold">{row.asset[0]}</span>
                   </div>
-                  <span className="text-sm font-bold text-gray-900">{row.asset}</span>
-                  {row.hasLink && <ArrowUpRight className="w-3 h-3 text-gray-400" />}
+                  <span className="text-xs font-bold text-gray-900">{row.asset}</span>
+                  {row.hasLink && <ArrowUpRight className="w-2.5 h-2.5 text-gray-400" />}
                 </div>
               </td>
-              <td className="py-2.5 px-3 text-center">
-                <span className="text-sm font-semibold text-gray-900">{row.price}</span>
-                <span className={`ml-1.5 text-xs ${row.priceChange >= 0 ? 'text-emerald-500' : 'text-red-500'}`}>
+              <td className="py-2 px-2 text-center">
+                <span className="text-xs font-semibold text-gray-900">{row.price}</span>
+                <span className={`ml-1 text-[10px] ${row.priceChange >= 0 ? 'text-emerald-500' : 'text-red-500'}`}>
                   {row.priceChange >= 0 ? '+' : ''}{row.priceChange}%
                 </span>
               </td>
-              <td className="py-2.5 px-3 text-center">
-                <span className="text-sm font-semibold text-gray-900">{row.volume}</span>
-                <span className={`ml-1.5 text-xs ${row.volumeChange >= 0 ? 'text-emerald-500' : 'text-red-500'}`}>
+              <td className="py-2 px-2 text-center">
+                <span className="text-xs font-semibold text-gray-900">{row.volume}</span>
+                <span className={`ml-1 text-[10px] ${row.volumeChange >= 0 ? 'text-emerald-500' : 'text-red-500'}`}>
                   {row.volumeChange >= 0 ? '+' : ''}{row.volumeChange}%
                 </span>
               </td>
-              <td className="py-2.5 px-4 text-right">
-                <span className="text-sm font-semibold text-emerald-600">{row.netflow}</span>
-                <span className={`ml-1.5 text-xs ${row.netflowChange >= 0 ? 'text-emerald-500' : 'text-red-500'}`}>
+              <td className="py-2 px-3 text-right">
+                <span className="text-xs font-semibold text-emerald-600">{row.netflow}</span>
+                <span className={`ml-1 text-[10px] ${row.netflowChange >= 0 ? 'text-emerald-500' : 'text-red-500'}`}>
                   {row.netflowChange >= 0 ? '+' : ''}{row.netflowChange}%
                 </span>
               </td>
