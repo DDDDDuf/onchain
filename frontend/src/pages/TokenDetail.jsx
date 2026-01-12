@@ -904,6 +904,9 @@ export default function TokenDetail() {
                 </table>
               </GlassCard>
             </div>
+            
+            {/* Open Interest / CEX Volume / Funding Rate Charts */}
+            <OpenInterestChart token={token} />
           </div>
           
           {/* Right Column - Chart */}
