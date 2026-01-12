@@ -261,13 +261,13 @@ const assetColors = {
 // Exchange Flows Table
 const ExchangeFlowsTable = () => (
   <div>
-    <div className="flex items-center justify-between mb-3">
-      <h2 className="text-xs font-bold text-gray-600 uppercase tracking-wider">EXCHANGE FLOWS</h2>
-      <div className="flex items-center gap-1.5">
-        <button className="px-2.5 py-1 text-[10px] font-bold rounded-xl bg-blue-500 text-white">CEX+DEX</button>
-        <button className="px-2.5 py-1 text-[10px] font-bold rounded-xl border border-yellow-400 text-yellow-600 bg-yellow-50">MARKET CAP ≥ $100M</button>
-        <button className="px-2.5 py-1 text-[10px] font-bold rounded-xl border border-yellow-400 text-yellow-600 bg-yellow-50">VOLUME ≥ $100K</button>
-        <button className="px-2.5 py-1 text-[10px] font-bold rounded-xl border border-orange-400 text-orange-500 bg-orange-50">SORT BY NETFLOW/VOLUME</button>
+    <div className="flex items-center gap-3 mb-3 flex-wrap">
+      <h2 className="text-[10px] font-bold text-gray-600 uppercase tracking-wider">EXCHANGE FLOWS</h2>
+      <div className="flex items-center gap-1">
+        <button className="px-2 py-0.5 text-[8px] font-bold rounded-lg bg-blue-500 text-white whitespace-nowrap">CEX+DEX</button>
+        <button className="px-2 py-0.5 text-[8px] font-bold rounded-lg border border-yellow-400 text-yellow-600 bg-yellow-50 whitespace-nowrap">MARKET CAP ≥ $100M</button>
+        <button className="px-2 py-0.5 text-[8px] font-bold rounded-lg border border-yellow-400 text-yellow-600 bg-yellow-50 whitespace-nowrap">VOLUME ≥ $100K</button>
+        <button className="px-2 py-0.5 text-[8px] font-bold rounded-lg border border-orange-400 text-orange-500 bg-orange-50 whitespace-nowrap">SORT BY NETFLOW/VOLUME</button>
       </div>
     </div>
     
