@@ -728,6 +728,204 @@ const PriceChart = ({ token }) => {
   );
 };
 
+// Open Interest / CEX Volume / Funding Rate Chart Component
+const OpenInterestChart = ({ token }) => {
+  const [chartType, setChartType] = useState('open_interest');
+  const [volumeType, setVolumeType] = useState('spot');
+  const [chartPeriod, setChartPeriod] = useState('1M');
+  const [exchanges, setExchanges] = useState({ binance: true, bybit: true });
+  
+  return (
+    <div className="mt-6">
+      {/* Main Tabs */}
+      <div className="flex items-center justify-between mb-3">
+        <GlassCard className="p-1 inline-flex" hover={false}>
+          {[
+            { key: 'open_interest', label: 'OPEN INTEREST' },
+            { key: 'cex_volume', label: 'CEX VOLUME' },
+            { key: 'funding_rate', label: 'FUNDING RATE' },
+          ].map((tab) => (
+            <button
+              key={tab.key}
+              onClick={() => setChartType(tab.key)}
+              className={`px-3 py-1.5 text-[10px] font-semibold rounded-lg transition-all ${
+                chartType === tab.key
+                  ? 'bg-white text-gray-900 shadow-md'
+                  : 'text-gray-500 hover:text-gray-700'
+              }`}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </GlassCard>
+        
+        {/* Period Selector */}
+        <div className="flex items-center gap-1">
+          {['24H', '1W', '1M', '3M', '6M'].map((period) => (
+            <button
+              key={period}
+              onClick={() => setChartPeriod(period)}
+              className={`px-2 py-1 text-[10px] font-semibold rounded-lg transition-all ${
+                chartPeriod === period
+                  ? 'bg-gray-800 text-white'
+                  : 'text-gray-500 hover:bg-gray-100'
+              }`}
+            >
+              {period}
+            </button>
+          ))}
+        </div>
+      </div>
+      
+      {/* Sub controls for CEX Volume */}
+      {chartType === 'cex_volume' && (
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center gap-1">
+            {['SPOT', 'PERP'].map((type) => (
+              <button
+                key={type}
+                onClick={() => setVolumeType(type.toLowerCase())}
+                className={`px-3 py-1 text-[10px] font-semibold rounded-lg transition-all ${
+                  volumeType === type.toLowerCase()
+                    ? 'bg-purple-600 text-white'
+                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                }`}
+              >
+                {type}
+              </button>
+            ))}
+          </div>
+          <button className="px-3 py-1 text-[10px] font-semibold text-purple-600 border border-purple-300 rounded-lg hover:bg-purple-50">
+            Analyze
+          </button>
+        </div>
+      )}
+      
+      {/* Exchange Filters */}
+      <div className="flex items-center gap-2 mb-3">
+        <button
+          onClick={() => setExchanges(prev => ({ ...prev, binance: !prev.binance }))}
+          className={`flex items-center gap-1.5 px-2.5 py-1 text-[10px] font-semibold rounded-lg transition-all ${
+            exchanges.binance
+              ? 'bg-yellow-100 text-yellow-700 border border-yellow-300'
+              : 'bg-gray-100 text-gray-500 border border-gray-200'
+          }`}
+        >
+          <div className="w-2 h-2 rounded-full bg-yellow-500"></div>
+          BINANCE
+        </button>
+        <button
+          onClick={() => setExchanges(prev => ({ ...prev, bybit: !prev.bybit }))}
+          className={`flex items-center gap-1.5 px-2.5 py-1 text-[10px] font-semibold rounded-lg transition-all ${
+            exchanges.bybit
+              ? 'bg-orange-100 text-orange-700 border border-orange-300'
+              : 'bg-gray-100 text-gray-500 border border-gray-200'
+          }`}
+        >
+          <div className="w-2 h-2 rounded-full bg-orange-500"></div>
+          BYBIT
+        </button>
+      </div>
+      
+      {/* Chart */}
+      <GlassCard className="p-4 relative overflow-hidden">
+        {/* Watermark */}
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-[0.03]">
+          <div className="text-[80px] font-black text-gray-900 tracking-tight">FLOW</div>
+        </div>
+        
+        <div className="h-[200px] relative z-10">
+          {chartType === 'cex_volume' ? (
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={cexVolumeData}>
+                <XAxis 
+                  dataKey="time" 
+                  axisLine={false} 
+                  tickLine={false}
+                  tick={{ fill: '#9CA3AF', fontSize: 9 }}
+                  interval="preserveStartEnd"
+                />
+                <YAxis 
+                  axisLine={false} 
+                  tickLine={false}
+                  tick={{ fill: '#9CA3AF', fontSize: 9 }}
+                  tickFormatter={(value) => `${value}K`}
+                />
+                <Tooltip 
+                  contentStyle={{ 
+                    backgroundColor: 'white', 
+                    border: 'none', 
+                    borderRadius: '8px',
+                    boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
+                    fontSize: 10
+                  }}
+                />
+                {exchanges.binance && <Bar dataKey="binance" fill="#F3BA2F" radius={[2, 2, 0, 0]} />}
+                {exchanges.bybit && <Bar dataKey="bybit" fill="#F97316" radius={[2, 2, 0, 0]} />}
+              </BarChart>
+            </ResponsiveContainer>
+          ) : (
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart data={openInterestData}>
+                <defs>
+                  <linearGradient id="colorBinance" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#F3BA2F" stopOpacity={0.3}/>
+                    <stop offset="95%" stopColor="#F3BA2F" stopOpacity={0}/>
+                  </linearGradient>
+                  <linearGradient id="colorBybit" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#F97316" stopOpacity={0.3}/>
+                    <stop offset="95%" stopColor="#F97316" stopOpacity={0}/>
+                  </linearGradient>
+                </defs>
+                <XAxis 
+                  dataKey="date" 
+                  axisLine={false} 
+                  tickLine={false}
+                  tick={{ fill: '#9CA3AF', fontSize: 9 }}
+                />
+                <YAxis 
+                  axisLine={false} 
+                  tickLine={false}
+                  tick={{ fill: '#9CA3AF', fontSize: 9 }}
+                  tickFormatter={(value) => `$${value}M`}
+                />
+                <Tooltip 
+                  contentStyle={{ 
+                    backgroundColor: 'white', 
+                    border: 'none', 
+                    borderRadius: '8px',
+                    boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
+                    fontSize: 10
+                  }}
+                  formatter={(value) => [`$${value}M`, '']}
+                />
+                {exchanges.binance && (
+                  <Area 
+                    type="monotone" 
+                    dataKey="binance" 
+                    stroke="#F3BA2F" 
+                    strokeWidth={2}
+                    fill="url(#colorBinance)"
+                  />
+                )}
+                {exchanges.bybit && (
+                  <Area 
+                    type="monotone" 
+                    dataKey="bybit" 
+                    stroke="#F97316" 
+                    strokeWidth={2}
+                    fill="url(#colorBybit)"
+                  />
+                )}
+              </AreaChart>
+            </ResponsiveContainer>
+          )}
+        </div>
+      </GlassCard>
+    </div>
+  );
+};
+
 // ============ MAIN PAGE ============
 
 export default function TokenDetail() {
