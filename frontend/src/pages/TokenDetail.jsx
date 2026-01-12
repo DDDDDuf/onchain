@@ -607,21 +607,172 @@ export default function TokenDetail() {
       {/* Token Header */}
       <TokenHeader token={token} />
       
-      {/* Tabs */}
-      <Tabs activeTab={activeTab} setActiveTab={setActiveTab} />
-      
-      {/* Filters */}
-      <Filters timePeriod={timePeriod} setTimePeriod={setTimePeriod} />
-      
-      {/* Content based on active tab */}
-      {activeTab === 'balance' ? (
-        <EntityBalanceTable />
-      ) : (
-        <TopFlowsTable />
-      )}
-      
-      {/* Top Holders Table - always visible */}
-      <TopHoldersTable token={token} />
+      {/* Main Content - Two Column Layout */}
+      <div className="px-6 pb-8">
+        <div className="grid grid-cols-12 gap-6">
+          {/* Left Column - Tables */}
+          <div className="col-span-12 lg:col-span-6">
+            {/* Tabs */}
+            <div className="mb-4">
+              <GlassCard className="p-1 inline-flex" hover={false}>
+                <button 
+                  onClick={() => setActiveTab('balance')}
+                  className={`px-4 py-2 text-xs font-semibold rounded-xl transition-all ${
+                    activeTab === 'balance' 
+                      ? 'bg-white text-gray-900 shadow-md' 
+                      : 'text-gray-500 hover:text-gray-700'
+                  }`}
+                >
+                  ENTITY BALANCE CHANGES
+                </button>
+                <button 
+                  onClick={() => setActiveTab('flows')}
+                  className={`px-4 py-2 text-xs font-semibold rounded-xl transition-all ${
+                    activeTab === 'flows' 
+                      ? 'bg-white text-gray-900 shadow-md' 
+                      : 'text-gray-500 hover:text-gray-700'
+                  }`}
+                >
+                  TOP FLOWS
+                </button>
+              </GlassCard>
+            </div>
+            
+            {/* Filters */}
+            <div className="mb-4 flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <button className="px-2 py-1 text-[10px] font-bold rounded-lg border border-blue-500 text-blue-600 bg-blue-50">
+                  USD ≥ 100 000
+                </button>
+                <button className="px-2 py-1 text-[10px] font-bold rounded-lg border border-orange-400 text-orange-500 bg-orange-50">
+                  SORT BY USD CHANGE %
+                </button>
+              </div>
+              
+              <div className="relative">
+                <select 
+                  value={timePeriod}
+                  onChange={(e) => setTimePeriod(e.target.value)}
+                  className="appearance-none bg-gray-800 text-white px-3 py-1.5 pr-7 rounded-lg text-xs font-semibold cursor-pointer"
+                >
+                  <option value="1D">1D</option>
+                  <option value="7D">7D</option>
+                  <option value="30D">30D</option>
+                  <option value="ALL">ALL</option>
+                </select>
+                <ChevronDown className="w-3 h-3 text-gray-400 absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none" />
+              </div>
+            </div>
+            
+            {/* Entity Table */}
+            <GlassCard className="overflow-hidden mb-6">
+              <table className="w-full text-xs">
+                <thead>
+                  <tr className="border-b border-gray-100/50">
+                    <th className="text-left py-3 px-4 text-[10px] font-semibold text-gray-500 uppercase">
+                      <Filter className="w-2.5 h-2.5 inline mr-1" /> ENTITY
+                    </th>
+                    <th className="text-right py-3 px-3 text-[10px] font-semibold text-gray-500 uppercase">VALUE</th>
+                    <th className="text-right py-3 px-3 text-[10px] font-semibold text-gray-500 uppercase">CHANGE</th>
+                    <th className="text-right py-3 px-3 text-[10px] font-semibold text-gray-500 uppercase">USD</th>
+                    <th className="text-right py-3 px-4 text-[10px] font-semibold text-gray-500 uppercase">CHANGE ▼</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {entityBalanceChanges.slice(0, 6).map((entity, i) => (
+                    <tr key={i} className="border-b border-gray-50/50 hover:bg-gray-50/50 cursor-pointer transition-colors">
+                      <td className="py-2.5 px-4">
+                        <div className="flex items-center gap-2">
+                          <div className="w-6 h-6 rounded-full bg-gray-100 flex items-center justify-center text-sm">
+                            {entity.icon}
+                          </div>
+                          <div>
+                            <div className="font-semibold text-gray-900 text-xs">{entity.name}</div>
+                            <div className="text-[10px] text-gray-500">{entity.type}</div>
+                          </div>
+                        </div>
+                      </td>
+                      <td className="py-2.5 px-3 text-right font-semibold text-gray-900">{entity.value}</td>
+                      <td className={`py-2.5 px-3 text-right font-semibold ${
+                        entity.valueChange.startsWith('+') ? 'text-emerald-500' : 
+                        entity.valueChange.startsWith('-') ? 'text-red-500' : 'text-gray-500'
+                      }`}>{entity.valueChange}</td>
+                      <td className="py-2.5 px-3 text-right font-semibold text-gray-900">{entity.usd}</td>
+                      <td className={`py-2.5 px-4 text-right font-semibold ${
+                        entity.usdChange.startsWith('+') ? 'text-emerald-500' : 
+                        entity.usdChange.startsWith('-') ? 'text-red-500' : 'text-gray-500'
+                      }`}>{entity.usdChange}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </GlassCard>
+            
+            {/* Top Holders */}
+            <div>
+              <div className="flex items-center justify-between mb-3">
+                <h2 className="text-xs font-bold text-gray-600 uppercase tracking-wider">
+                  {token.symbol} TOP HOLDERS
+                </h2>
+                <div className="flex items-center gap-2 text-[10px] text-gray-500">
+                  <span>ADDRESSES</span>
+                  <div className="w-8 h-4 rounded-full bg-gray-300 relative">
+                    <span className="absolute left-0.5 top-0.5 w-3 h-3 rounded-full bg-white shadow" />
+                  </div>
+                  <span>GROUP BY ENTITY</span>
+                </div>
+              </div>
+              
+              <GlassCard className="overflow-hidden relative">
+                <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-[0.03]">
+                  <div className="text-[100px] font-black text-gray-900 tracking-tight">FLOW</div>
+                </div>
+                
+                <table className="w-full text-xs relative z-10">
+                  <thead>
+                    <tr className="border-b border-gray-100/50">
+                      <th className="text-left py-3 px-4 text-[10px] font-semibold text-gray-500 uppercase">ADDRESS</th>
+                      <th className="text-right py-3 px-3 text-[10px] font-semibold text-gray-500 uppercase">VALUE</th>
+                      <th className="text-right py-3 px-3 text-[10px] font-semibold text-gray-500 uppercase">PCT</th>
+                      <th className="text-right py-3 px-4 text-[10px] font-semibold text-gray-500 uppercase">USD</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {topHolders.slice(0, 5).map((holder, i) => (
+                      <tr key={i} className="border-b border-gray-50/50 hover:bg-gray-50/50 cursor-pointer transition-colors">
+                        <td className="py-2.5 px-4">
+                          <div className="flex items-center gap-2">
+                            {holder.isEntity ? (
+                              <div className="w-5 h-5 rounded-full bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center text-white text-[8px] font-bold">
+                                {holder.icon}
+                              </div>
+                            ) : (
+                              <div className="w-5 h-5 rounded-full bg-gray-200 flex items-center justify-center">
+                                <span className="text-gray-500 text-[8px]">?</span>
+                              </div>
+                            )}
+                            <span className={`font-medium ${holder.isEntity ? 'text-blue-600' : 'text-gray-600'} truncate max-w-[200px] text-xs`}>
+                              {holder.name}
+                            </span>
+                          </div>
+                        </td>
+                        <td className="py-2.5 px-3 text-right font-semibold text-gray-900">{holder.value}</td>
+                        <td className="py-2.5 px-3 text-right font-semibold text-gray-900">{holder.pct}</td>
+                        <td className="py-2.5 px-4 text-right font-semibold text-gray-900">{holder.usd}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </GlassCard>
+            </div>
+          </div>
+          
+          {/* Right Column - Chart */}
+          <div className="col-span-12 lg:col-span-6">
+            <PriceChart token={token} />
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
