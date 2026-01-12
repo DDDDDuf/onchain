@@ -1,109 +1,129 @@
-# LiquiFlow - On-Chain Analytics Platform PRD
+# Flow Intel - Product Requirements Document
 
-## Original Problem Statement
-Система on-chain аналітики, яка показує рух ліквідності між гаманцями, біржами, контрактами та пулами. Структура платформи включає: Dashboard, Flow Graph, Entity Profile, Transaction View, Liquidity Pool View, Alerts & Events, Search & Filters.
+## Overview
+Flow Intel is an on-chain analytics platform for visualizing liquidity movements between wallets, exchanges, contracts, and pools. The design is inspired by intel.arkm.com with a modern light theme using glassmorphism effects (Telegram 2026 style).
 
-## User Personas
-1. **Crypto Trader** - відстежує whale movements, великі перекази, ліквідність пулів
-2. **Blockchain Researcher** - аналізує потоки між entities, досліджує транзакції
-3. **DeFi Analyst** - моніторить пули ліквідності, APY, зміни резервів
-4. **Risk Manager** - отримує алерти про підозрілу активність
+## Current Implementation Status
 
-## Core Requirements
-- [x] Dashboard з інсайтами та статистикою
-- [x] Flow Graph візуалізація потоків ліквідності
-- [x] Entity Profile (профіль адреси/біржі/контракту)
-- [x] Transaction View з деталями транзакцій
-- [x] Liquidity Pool View зі станом пулів
-- [x] Alerts & Events система попереджень
-- [x] Search & Filters глобальний пошук
-- [x] Підтримка мереж: Ethereum, BSC, Polygon, Arbitrum
-- [x] Connect Wallet (mock для перегляду)
-- [x] Світла тема дизайну
+### ✅ Completed Features
 
-## Tech Stack
-- **Backend**: FastAPI (Python)
-- **Frontend**: React + Tailwind CSS + Shadcn UI
-- **Database**: MongoDB
-- **Charts**: Recharts, Custom SVG
+#### Home Page (`/` - ArkhamHome.jsx)
+- [x] Glassmorphism Header with logo, navigation, wallet connect
+- [x] Market stats ticker (Market Cap, BTC/ETH Dominance, Volume, Fear & Greed)
+- [x] Full-width search bar
+- [x] Entities carousel with prices and changes
+- [x] Exchange Tokens card (clickable, navigates to token detail)
+- [x] Exchange Flows table with filters (CEX+DEX, Market Cap, Volume)
+- [x] Filter for Transfers table with real-time feed
 
-## What's Been Implemented (January 2026)
+#### Token Detail Page (`/token/:tokenId` - TokenDetail.jsx)
+- [x] Token header with name, symbol, price
+- [x] Back button navigation
+- [x] Entity Balance Changes table with tabs
+- [x] Top Holders table with toggle (Addresses/Group by Entity)
+- [x] Price History chart (Area chart)
+- [x] Token stats bar (24H Volume, Market Cap, FDV, Supply)
+- [x] Time period selector (1W, 1M, 3M, 1Y, ALL)
+- [x] Chart tabs (Price History, On-Chain Exchange Flow, TradingView)
+- [x] Bottom stats (24H, 7D, 30D, 180D changes, ATH, ATL)
+- [x] Token Transfers table with pagination
+- [x] Open Interest / CEX Volume / Funding Rate charts
+- [x] Exchange filters (Binance, Bybit)
+- [x] SPOT/PERP toggle for CEX Volume
 
 ### Backend API Endpoints
-- `GET /api/dashboard/stats` - статистика dashboard
-- `GET /api/networks` - список підтримуваних мереж
-- `GET /api/entities` - список entities з фільтрами
-- `GET /api/entities/{address}` - деталі entity
-- `GET /api/transactions` - список транзакцій
-- `GET /api/transactions/{hash}` - деталі транзакції
-- `GET /api/pools` - список пулів ліквідності
-- `GET /api/pools/{address}` - деталі пулу
-- `GET /api/alerts` - список алертів
-- `GET /api/flow-graph` - дані для графу потоків
-- `GET /api/search` - глобальний пошук
-- `GET /api/price-history/{symbol}` - історія цін
+- [x] GET `/api/` - Health check
+- [x] GET `/api/entities` - Top entities
+- [x] GET `/api/exchange-flows` - Exchange flow data
+- [x] GET `/api/transfers` - Recent transfers
+- [x] GET `/api/tokens` - All tokens
+- [x] GET `/api/tokens/{id}` - Token details
+- [x] GET `/api/tokens/{id}/balance-changes` - Entity balances
+- [x] GET `/api/tokens/{id}/holders` - Top holders
+- [x] GET `/api/tokens/{id}/transfers` - Token transfers
+- [x] GET `/api/tokens/{id}/price-history` - Price history
+- [x] GET `/api/tokens/{id}/open-interest` - Open interest
+- [x] GET `/api/tokens/{id}/cex-volume` - CEX volume
+- [x] GET `/api/market-stats` - Market statistics
 
-### Frontend Pages
-1. **Dashboard** - статистика, останні перекази, активні алерти, топ пули
-2. **Flow Graph** - SVG візуалізація потоків з фільтрами та легендою
-3. **Entities** - картки entities з балансами, inflow/outflow
-4. **Entity Profile** - баланси токенів, pie chart, транзакції, counterparties
-5. **Transactions** - таблиця транзакцій з фільтрами
-6. **Transaction View** - деталі, internal txs, gas info
-7. **Pools** - картки пулів з liquidity, volume, APY
-8. **Pool View** - графік ліквідності, LP holders, events
-9. **Alerts** - алерти за severity, типом, мережею
-10. **Search Results** - результати пошуку по категоріях
+## Design System
 
-### UI Components
-- Glass header з пошуком
-- Responsive sidebar з навігацією
-- Network selector dropdown
-- Connect Wallet button
-- Data tables з пагінацією
-- Stats cards з трендами
-- Chain badges (Ethereum, BSC, Polygon, Arbitrum)
-- Severity badges (critical, important, normal)
+### Colors
+- Background: Gradient `from-gray-50 via-blue-50/30 to-purple-50/30`
+- Primary: Blue `#3B82F6`
+- Success: Emerald `#10B981`
+- Warning: Yellow `#EAB308`
+- Error: Red `#EF4444`
+- Text Primary: Gray-900
+- Text Secondary: Gray-500
 
-## Prioritized Backlog
+### Components
+- GlassCard: `bg-white/70 backdrop-blur-xl rounded-3xl`
+- Buttons: `rounded-xl` or `rounded-lg`
+- Filters: Pill-shaped with colored borders
+- Tables: Clean with hover states
 
-### P0 (Critical) - DONE
-- [x] Core navigation and routing
-- [x] Dashboard with stats
-- [x] Flow Graph visualization
-- [x] Entity list and profile
-- [x] Transaction list and details
-- [x] Pool list and details
-- [x] Alerts system
+### Typography
+- Headers: Bold, uppercase for section titles
+- Body: Regular weight
+- Data: Semibold for values
 
-### P1 (High Priority)
-- [ ] Real blockchain API integration (Etherscan, Alchemy)
-- [ ] Real-time WebSocket updates for alerts
-- [ ] User authentication
-- [ ] Saved searches / watchlists
-- [ ] Export data to CSV/PDF
+## File Structure (Clean)
+```
+/app
+├── backend/
+│   ├── server.py          # FastAPI app (cleaned)
+│   ├── requirements.txt
+│   └── .env
+├── frontend/
+│   ├── src/
+│   │   ├── App.js
+│   │   ├── pages/
+│   │   │   ├── ArkhamHome.jsx   # Home page
+│   │   │   └── TokenDetail.jsx  # Token detail
+│   │   └── components/ui/       # Shadcn components
+│   └── package.json
+├── README.md
+└── memory/
+    └── PRD.md
+```
 
-### P2 (Medium Priority)
-- [ ] Advanced flow graph with D3.js for complex visualizations
-- [ ] Historical data comparison
-- [ ] Custom alert rules creation
-- [ ] Dark theme option
-- [ ] Multi-wallet portfolio tracking
+## Future Enhancements (Backlog)
 
-### P3 (Nice to have)
-- [ ] Telegram/Discord notifications
-- [ ] AI-powered anomaly detection
-- [ ] API rate limiting and caching
-- [ ] Mobile app version
+### P1 - High Priority
+- [ ] Connect to real blockchain data APIs
+- [ ] User authentication system
+- [ ] Wallet connection (Web3)
+- [ ] Real-time WebSocket updates
+- [ ] Responsive mobile design optimization
 
-## Next Tasks
-1. Integrate real blockchain APIs (Etherscan, Alchemy, CoinGecko)
-2. Add WebSocket for real-time alerts
-3. Implement user authentication (JWT or Google OAuth)
-4. Add watchlist/favorites functionality
-5. Create export functionality
+### P2 - Medium Priority
+- [ ] Entity Profile page
+- [ ] Transaction Detail page
+- [ ] Pool Detail page
+- [ ] Alerts & Notifications system
+- [ ] Search functionality (backend integration)
 
-## Known Limitations
-- All data is currently **MOCKED** - no real blockchain integration
-- Connect Wallet is visual only
-- No user persistence between sessions
+### P3 - Low Priority
+- [ ] Flow Graph visualization (D3.js)
+- [ ] Dark theme toggle
+- [ ] Export data (CSV/PDF)
+- [ ] API key management
+- [ ] Favorites/Watchlist
+
+## Technical Notes
+
+### Mock Data
+All data is currently mocked in the frontend and backend. The structure is ready for real API integration.
+
+### Charts
+Using Recharts library:
+- AreaChart for price history and open interest
+- BarChart for CEX volume
+
+### Routing
+- `/` - Home page (ArkhamHome)
+- `/token/:tokenId` - Token detail page
+
+---
+Last Updated: January 12, 2026
