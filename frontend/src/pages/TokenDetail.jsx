@@ -420,6 +420,9 @@ export default function TokenDetail() {
       ) : (
         <TopFlowsTable />
       )}
+      
+      {/* Top Holders Table - always visible */}
+      <TopHoldersTable token={token} />
     </div>
   );
 }
