@@ -46,6 +46,17 @@ const topFlows = [
   { from: "HTX", to: "DEX Router", value: "890K", usd: "$51.3K", time: "6 hours ago" },
 ];
 
+// Top Holders Data
+const topHolders = [
+  { name: "Binance: Cold Wallet (0xF97)", isEntity: true, icon: "◇", value: "398,417,870.95", pct: "19.92%", usd: "$22.09M" },
+  { name: "0xa2B741C8b4c840082c14A4aDEBFA3F2eAE45d022", isEntity: false, icon: null, value: "293,116,664", pct: "14.66%", usd: "$16.25M" },
+  { name: "Upbit: Cold Wallet (0xb93)", isEntity: true, icon: "UP", value: "229,965,767.73", pct: "11.5%", usd: "$12.75M" },
+  { name: "0x74f50212ac259BA648F0BF4f0C02FaaB098cf7d6", isEntity: false, icon: null, value: "133,362,169.33", pct: "6.67%", usd: "$7.39M" },
+  { name: "0x18051a9c643077DC1A14d49E1B804dC857750287", isEntity: false, icon: null, value: "119,638,020.93", pct: "5.98%", usd: "$6.63M" },
+  { name: "0x5d2A3ceF08bDD89b6AE9713b18E8F010dAC2950a", isEntity: false, icon: null, value: "115,349,900", pct: "5.77%", usd: "$6.39M" },
+  { name: "0x48c9b9313daF9310e85b114710e92bf2f4FB1b74", isEntity: false, icon: null, value: "68,329,830.18", pct: "3.42%", usd: "$3.79M" },
+];
+
 // ============ COMPONENTS ============
 
 // Glass Card Component
