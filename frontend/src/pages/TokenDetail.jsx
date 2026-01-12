@@ -116,6 +116,48 @@ const topHolders = [
   { name: "0x48c9b9313daF9310e85b114710e92bf2f4FB1b74", isEntity: false, icon: null, value: "68,329,830.18", pct: "3.42%", usd: "$3.79M" },
 ];
 
+// Open Interest Data
+const openInterestData = [
+  { date: '17', binance: 2.1, bybit: 0.9 },
+  { date: '19', binance: 1.9, bybit: 0.85 },
+  { date: '21', binance: 2.3, bybit: 0.95 },
+  { date: '23', binance: 2.2, bybit: 0.9 },
+  { date: '25', binance: 2.4, bybit: 0.88 },
+  { date: '27', binance: 2.5, bybit: 0.92 },
+  { date: '29', binance: 2.3, bybit: 0.87 },
+  { date: '2026', binance: 2.6, bybit: 0.9 },
+  { date: '3', binance: 2.4, bybit: 0.88 },
+  { date: '5', binance: 2.8, bybit: 0.95 },
+  { date: '7', binance: 2.7, bybit: 0.92 },
+  { date: '9', binance: 2.5, bybit: 0.89 },
+];
+
+// CEX Volume Data
+const cexVolumeData = [
+  { time: '13:30', binance: 50, bybit: 30 },
+  { time: '14:00', binance: 80, bybit: 45 },
+  { time: '14:30', binance: 40, bybit: 25 },
+  { time: '15:00', binance: 60, bybit: 35 },
+  { time: '16:00', binance: 45, bybit: 28 },
+  { time: '17:00', binance: 55, bybit: 32 },
+  { time: '18:30', binance: 35, bybit: 20 },
+  { time: '19:30', binance: 50, bybit: 30 },
+  { time: '20:30', binance: 40, bybit: 25 },
+  { time: '21:30', binance: 45, bybit: 28 },
+  { time: '22:30', binance: 55, bybit: 32 },
+  { time: '23:30', binance: 60, bybit: 38 },
+  { time: '00:30', binance: 70, bybit: 45 },
+  { time: '01:30', binance: 700, bybit: 50 },
+  { time: '02:30', binance: 100, bybit: 60 },
+  { time: '03:30', binance: 150, bybit: 80 },
+  { time: '04:30', binance: 300, bybit: 100 },
+  { time: '05:30', binance: 120, bybit: 70 },
+  { time: '06:30', binance: 80, bybit: 50 },
+  { time: '07:30', binance: 60, bybit: 35 },
+  { time: '08:30', binance: 55, bybit: 30 },
+  { time: '09:30', binance: 50, bybit: 28 },
+];
+
 // ============ COMPONENTS ============
 
 // Glass Card Component
