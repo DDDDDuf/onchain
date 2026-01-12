@@ -304,6 +304,92 @@ const TopFlowsTable = () => (
   </div>
 );
 
+// Top Holders Table
+const TopHoldersTable = ({ token }) => {
+  const [groupByEntity, setGroupByEntity] = useState(false);
+  
+  return (
+    <div className="px-6 pb-8">
+      {/* Title and Toggle */}
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-sm font-bold text-gray-600 uppercase tracking-wider">
+          {token.symbol} TOP HOLDERS
+        </h2>
+        <div className="flex items-center gap-2">
+          <span className="text-xs text-gray-500">ADDRESSES</span>
+          <button 
+            onClick={() => setGroupByEntity(!groupByEntity)}
+            className={`relative w-12 h-6 rounded-full transition-colors ${
+              groupByEntity ? 'bg-blue-500' : 'bg-gray-300'
+            }`}
+          >
+            <span className={`absolute top-1 w-4 h-4 rounded-full bg-white shadow transition-transform ${
+              groupByEntity ? 'left-7' : 'left-1'
+            }`} />
+          </button>
+          <span className="text-xs text-gray-500">GROUP BY ENTITY</span>
+        </div>
+      </div>
+      
+      <GlassCard className="overflow-hidden relative">
+        {/* Watermark */}
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-[0.03]">
+          <div className="text-[150px] font-black text-gray-900 tracking-tight">FLOW</div>
+        </div>
+        
+        <table className="w-full relative z-10">
+          <thead>
+            <tr className="border-b border-gray-100/50">
+              <th className="text-left py-4 px-6 text-xs font-semibold text-gray-500 uppercase w-1/2">
+                <Filter className="w-3 h-3 inline mr-1" /> {groupByEntity ? 'ENTITY' : 'ADDRESS'}
+              </th>
+              <th className="text-right py-4 px-4 text-xs font-semibold text-gray-500 uppercase">
+                <Filter className="w-3 h-3 inline mr-1" /> VALUE
+              </th>
+              <th className="text-right py-4 px-4 text-xs font-semibold text-gray-500 uppercase">PCT</th>
+              <th className="text-right py-4 px-6 text-xs font-semibold text-gray-500 uppercase">USD</th>
+            </tr>
+          </thead>
+          <tbody>
+            {topHolders.map((holder, i) => (
+              <tr 
+                key={i} 
+                className="border-b border-gray-50/50 hover:bg-gray-50/50 cursor-pointer transition-colors"
+              >
+                <td className="py-4 px-6">
+                  <div className="flex items-center gap-3">
+                    {holder.isEntity ? (
+                      <div className="w-8 h-8 rounded-full bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center text-white text-xs font-bold">
+                        {holder.icon}
+                      </div>
+                    ) : (
+                      <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
+                        <span className="text-gray-500 text-xs">?</span>
+                      </div>
+                    )}
+                    <span className={`font-medium ${holder.isEntity ? 'text-blue-600' : 'text-gray-600'} truncate max-w-[350px]`}>
+                      {holder.name}
+                    </span>
+                  </div>
+                </td>
+                <td className="py-4 px-4 text-right">
+                  <span className="font-semibold text-gray-900">{holder.value}</span>
+                </td>
+                <td className="py-4 px-4 text-right">
+                  <span className="font-semibold text-gray-900">{holder.pct}</span>
+                </td>
+                <td className="py-4 px-6 text-right">
+                  <span className="font-semibold text-gray-900">{holder.usd}</span>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </GlassCard>
+    </div>
+  );
+};
+
 // ============ MAIN PAGE ============
 
 export default function TokenDetail() {
