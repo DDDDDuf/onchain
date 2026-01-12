@@ -337,53 +337,52 @@ const ExchangeFlowsTable = () => (
 const TransfersTable = () => (
   <div className="h-full flex flex-col">
     {/* Header */}
-    <div className="flex items-center justify-between mb-4">
-      <h2 className="text-sm font-bold text-gray-500 uppercase tracking-wider">FILTER FOR TRANSFERS</h2>
-      <div className="flex items-center gap-2">
-        <button className="px-3 py-1.5 text-xs font-semibold rounded-xl bg-blue-500 text-white">ALL</button>
-        <button className="px-3 py-1.5 text-xs font-semibold rounded-xl border-2 border-purple-500 text-purple-600 bg-purple-50">USD ≥ $1</button>
-        <button className="px-3 py-1.5 text-xs font-semibold rounded-xl border-2 border-blue-500 text-blue-600 bg-blue-50">SORT BY TIME</button>
+    <div className="flex items-center justify-between mb-3">
+      <h2 className="text-xs font-bold text-gray-500 uppercase tracking-wider">FILTER FOR TRANSFERS</h2>
+      <div className="flex items-center gap-1.5">
+        <button className="px-2.5 py-1 text-[10px] font-bold rounded-xl bg-blue-500 text-white">ALL</button>
+        <button className="px-2.5 py-1 text-[10px] font-bold rounded-xl border border-purple-400 text-purple-600 bg-purple-50">USD ≥ $1</button>
+        <button className="px-2.5 py-1 text-[10px] font-bold rounded-xl border border-blue-400 text-blue-600 bg-blue-50">SORT BY TIME</button>
       </div>
     </div>
     
-    <GlassCard className="flex-1 overflow-hidden flex flex-col">
+    <GlassCard className="flex-1 overflow-hidden flex flex-col min-h-0">
       {/* Pagination */}
-      <div className="flex items-center justify-center gap-3 py-3 border-b border-gray-100/50">
-        <span className="text-sm text-gray-500">TRANSFERS</span>
-        <div className="flex items-center gap-2">
-          <ChevronLeft className="w-4 h-4 text-gray-400 cursor-pointer hover:text-gray-600" />
-          <span className="text-sm font-semibold text-gray-900">1 / 625</span>
-          <ChevronRight className="w-4 h-4 text-gray-400 cursor-pointer hover:text-gray-600" />
+      <div className="flex items-center justify-center gap-3 py-2 border-b border-gray-100/50 flex-shrink-0">
+        <span className="text-xs text-gray-500">TRANSFERS</span>
+        <div className="flex items-center gap-1.5">
+          <ChevronLeft className="w-3.5 h-3.5 text-gray-400 cursor-pointer hover:text-gray-600" />
+          <span className="text-xs font-semibold text-gray-900">1 / 625</span>
+          <ChevronRight className="w-3.5 h-3.5 text-gray-400 cursor-pointer hover:text-gray-600" />
         </div>
-        <RefreshCw className="w-4 h-4 text-gray-400 cursor-pointer hover:text-gray-600" />
+        <RefreshCw className="w-3.5 h-3.5 text-gray-400 cursor-pointer hover:text-gray-600" />
       </div>
       
       {/* Table Header */}
-      <div className="grid grid-cols-12 gap-2 px-4 py-2 border-b border-gray-100/50 text-[10px] text-gray-500 uppercase font-semibold">
-        <div className="col-span-1 flex items-center gap-1">
-          <Filter className="w-2.5 h-2.5" />
-          <Link2 className="w-2.5 h-2.5" />
-          <Clock className="w-2.5 h-2.5" />
+      <div className="flex items-center px-3 py-2 border-b border-gray-100/50 text-[9px] text-gray-500 uppercase font-semibold flex-shrink-0">
+        <div className="w-8 flex items-center gap-0.5">
+          <Filter className="w-2 h-2" />
+          <Link2 className="w-2 h-2" />
         </div>
-        <div className="col-span-1"><Filter className="w-2.5 h-2.5 inline" /> TIME</div>
-        <div className="col-span-3"><Filter className="w-2.5 h-2.5 inline" /> FROM</div>
-        <div className="col-span-3"><Filter className="w-2.5 h-2.5 inline" /> TO</div>
-        <div className="col-span-1 text-right"><Filter className="w-2.5 h-2.5 inline" /> VALUE</div>
-        <div className="col-span-2 text-right"><Filter className="w-2.5 h-2.5 inline" /> TOKEN</div>
-        <div className="col-span-1 text-right"><Filter className="w-2.5 h-2.5 inline" /> USD</div>
+        <div className="w-14"><Filter className="w-2 h-2 inline" /> TIME</div>
+        <div className="flex-1 min-w-0"><Filter className="w-2 h-2 inline" /> FROM</div>
+        <div className="flex-1 min-w-0"><Filter className="w-2 h-2 inline" /> TO</div>
+        <div className="w-16 text-right"><Filter className="w-2 h-2 inline" /> VALUE</div>
+        <div className="w-14 text-right"><Filter className="w-2 h-2 inline" /> TOKEN</div>
+        <div className="w-16 text-right">USD</div>
       </div>
       
       {/* Table Body */}
-      <div className="flex-1 overflow-y-auto">
+      <div className="flex-1 overflow-y-auto min-h-0">
         {transfersData.map((tx) => (
           <div 
             key={tx.id} 
-            className="grid grid-cols-12 gap-2 px-4 py-3 border-b border-gray-50/50 hover:bg-gray-50/50 cursor-pointer transition-colors items-center text-sm"
+            className="flex items-center px-3 py-2 border-b border-gray-50/50 hover:bg-gray-50/50 cursor-pointer transition-colors text-xs"
           >
             {/* Chain Icon */}
-            <div className="col-span-1">
+            <div className="w-8 flex-shrink-0">
               <div 
-                className="w-6 h-6 rounded-lg flex items-center justify-center text-white text-xs"
+                className="w-5 h-5 rounded flex items-center justify-center text-white text-[8px]"
                 style={{ backgroundColor: chainConfig[tx.chain]?.color || '#627EEA' }}
               >
                 {chainConfig[tx.chain]?.icon}
@@ -391,32 +390,47 @@ const TransfersTable = () => (
             </div>
             
             {/* Time */}
-            <div className="col-span-1">
-              <span className="text-blue-600 font-medium">{tx.time}</span>
+            <div className="w-14 flex-shrink-0">
+              <span className="text-blue-600 font-medium text-[11px]">{tx.time}</span>
             </div>
             
             {/* From */}
-            <div className="col-span-3 flex items-center gap-1.5 min-w-0">
-              <span className="text-lg">{tx.fromIcon}</span>
-              <span className="text-blue-600 truncate">{tx.from}</span>
+            <div className="flex-1 min-w-0 flex items-center gap-1 pr-2">
+              <span className="text-sm">{tx.fromIcon}</span>
+              <span className="text-blue-600 truncate text-[11px]">{tx.from}</span>
             </div>
             
             {/* To */}
-            <div className="col-span-3 flex items-center gap-1.5 min-w-0">
-              {tx.toIcon && <span className="text-lg">{tx.toIcon}</span>}
-              <span className="text-blue-600 truncate">{tx.to}</span>
+            <div className="flex-1 min-w-0 flex items-center gap-1 pr-2">
+              {tx.toIcon && <span className="text-sm">{tx.toIcon}</span>}
+              <span className="text-blue-600 truncate text-[11px]">{tx.to}</span>
             </div>
             
             {/* Value */}
-            <div className="col-span-1 text-right font-semibold text-gray-900">
+            <div className="w-16 text-right font-semibold text-gray-900 text-[11px] flex-shrink-0">
               {tx.value}
             </div>
             
             {/* Token */}
-            <div className="col-span-2 text-right">
+            <div className="w-14 text-right flex-shrink-0">
               <span 
-                className="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg text-white text-xs font-semibold"
+                className="inline-block px-1.5 py-0.5 rounded text-white text-[9px] font-bold"
                 style={{ backgroundColor: tx.tokenColor }}
+              >
+                {tx.token}
+              </span>
+            </div>
+            
+            {/* USD */}
+            <div className="w-16 text-right text-gray-500 font-medium text-[11px] flex-shrink-0">
+              {tx.usd}
+            </div>
+          </div>
+        ))}
+      </div>
+    </GlassCard>
+  </div>
+);
               >
                 {tx.token}
               </span>
