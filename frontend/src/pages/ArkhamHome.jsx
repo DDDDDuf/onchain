@@ -13,7 +13,8 @@ import {
   TrendingDown,
   X,
   Wallet,
-  Menu
+  Menu,
+  Clock
 } from 'lucide-react';
 
 // ============ MOCK DATA ============
@@ -66,22 +67,24 @@ const exchangeFlows = [
   { asset: "CTC", icon: "⚪", price: "$0.03", priceChange: -1.48, volume: "$2.75M", volumeChange: -30.37, netflow: "+$2.26M", netflowChange: -22.35 },
 ];
 
-// Top Projects
-const topProjects = [
-  { name: "Bitcoin", symbol: "BTC", price: "$90,860", change1h: "+0.29%", change24h: "+0.51%", change7d: "-0.56%", marketCap: "$1.812.4B", volume: "$20.5B", icon: "https://static.images.dropstab.com/images/bitcoin.svg" },
-  { name: "Ethereum", symbol: "ETH", price: "$3,114.07", change1h: "+0.20%", change24h: "+0.96%", change7d: "-0.80%", marketCap: "$375.0B", volume: "$11.0B", icon: "https://static.images.dropstab.com/images/ethereum.svg" },
-  { name: "Tether", symbol: "USDT", price: "$1", change1h: "-0.01%", change24h: "-0.01%", change7d: "-0.10%", marketCap: "$186.7B", volume: "$38.0B", icon: "https://static.images.dropstab.com/images/tether.svg" },
-  { name: "XRP", symbol: "XRP", price: "$2.06", change1h: "+0.03%", change24h: "-1.31%", change7d: "-1.48%", marketCap: "$125.4B", volume: "$1.8B", icon: "https://static.images.dropstab.com/images/ripple.svg" },
-  { name: "Solana", symbol: "SOL", price: "$139.08", change1h: "+0.53%", change24h: "+2.38%", change7d: "+3.90%", marketCap: "$78.5B", volume: "$3.5B", icon: "https://static.images.dropstab.com/images/solana.svg" },
+// Transfers Data (NEW)
+const transfersData = [
+  { id: 1, chain: "ethereum", time: "just now", from: "0x990636ecB3FF04d33D92e970d...", fromIcon: "🔷", to: "Etherex: Pool (0xAd9)", toIcon: "🟡", value: "158.902", token: "USDC", tokenColor: "#2775CA", usd: "$158.9" },
+  { id: 2, chain: "tron", time: "just now", from: "TEVhdHZTuAF2nUr3TSFBRGAVflgkw...", fromIcon: "🔴", to: "TDYjCGTaPgg7XiJc7J6NZaKLmQCDX...", toIcon: "", value: "10.631", token: "TRX", tokenColor: "#FF0013", usd: "$3.18" },
+  { id: 3, chain: "tron", time: "just now", from: "Binance Deposit (TF4E6)", fromIcon: "🔴", to: "Binance: Hot Wallet (TDqSq)", toIcon: "💎", value: "199", token: "USDT", tokenColor: "#26A17B", usd: "$199" },
+  { id: 4, chain: "tron", time: "just now", from: "TTR5DKekXJXKyhKiZsCVy6u0EhaCC...", fromIcon: "🔴", to: "SUN.io: UniswapV2Router02...", toIcon: "🟢", value: "3.719", token: "TRX", tokenColor: "#FF0013", usd: "$1.11" },
+  { id: 5, chain: "tron", time: "just now", from: "SUN.io: UniswapV2Router02...", fromIcon: "🟢", to: "TRON: Wrapped TRX (WTRX)...", toIcon: "🔴", value: "3.682", token: "TRX", tokenColor: "#FF0013", usd: "$1.1" },
+  { id: 6, chain: "tron", time: "just now", from: "Binance Deposit (TVByM)", fromIcon: "🔴", to: "Binance: Hot Wallet (TDqSq)", toIcon: "💎", value: "451.292", token: "USDT", tokenColor: "#26A17B", usd: "$451.29" },
+  { id: 7, chain: "tron", time: "just now", from: "TDYPg7BhtPMnp2j685dF...", fromIcon: "🔴", to: "TTEwMKRjP631DL37jxCG...", toIcon: "", value: "87", token: "TRX", tokenColor: "#FF0013", usd: "$26.01" },
+  { id: 8, chain: "tron", time: "just now", from: "Binance Deposit (TGZuc)", fromIcon: "🔴", to: "Binance: Hot Wallet (TDqSq)", toIcon: "💎", value: "831.802", token: "USDT", tokenColor: "#26A17B", usd: "$831.8" },
 ];
 
-// Top Gainers
-const topGainers = [
-  { name: "Story", symbol: "IP", price: "$0", change: "+26.28%", icon: "🟣" },
-  { name: "World", symbol: "WLD", price: "$1.85", change: "+19.51%", icon: "🌍" },
-  { name: "MYX Finance", symbol: "MYX", price: "$5.55", change: "+13.09%", icon: "🔷" },
-  { name: "Mantle", symbol: "MNT", price: "$0.98", change: "+9.08%", icon: "🟢" },
-];
+// Chain config
+const chainConfig = {
+  ethereum: { color: "#627EEA", icon: "⟠" },
+  tron: { color: "#FF0013", icon: "◆" },
+  bsc: { color: "#F3BA2F", icon: "◈" },
+};
 
 // ============ COMPONENTS ============
 
@@ -104,7 +107,6 @@ const Header = () => (
   <header className="sticky top-0 z-50 px-6 py-4" data-testid="header">
     <GlassCard className="px-5 py-3" hover={false}>
       <div className="flex items-center justify-between">
-        {/* Logo */}
         <a href="/" className="flex items-center gap-3" data-testid="logo">
           <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg">
             <span className="text-white text-lg font-black">F</span>
@@ -112,7 +114,6 @@ const Header = () => (
           <span className="text-xl font-bold text-gray-800 hidden sm:block">Flow Intel</span>
         </a>
         
-        {/* Navigation */}
         <nav className="hidden md:flex items-center gap-1">
           {['Market', 'Funding', 'Echo', 'Tools'].map(item => (
             <button key={item} className="px-4 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100/50 rounded-xl transition-all">
@@ -121,7 +122,6 @@ const Header = () => (
           ))}
         </nav>
         
-        {/* Right Actions */}
         <div className="flex items-center gap-3">
           <button className="hidden sm:flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white text-sm font-medium rounded-xl hover:opacity-90 transition-opacity shadow-lg shadow-blue-500/25">
             <Wallet className="w-4 h-4" />
@@ -139,7 +139,7 @@ const Header = () => (
 // Market Stats Ticker
 const MarketTicker = () => (
   <div className="overflow-hidden py-3 px-6 mb-4">
-    <div className="flex items-center gap-8 animate-scroll">
+    <div className="flex items-center gap-8">
       {[
         { label: "Market Cap", value: marketStats.totalMarketCap, change: marketStats.marketCapChange, isPositive: true },
         { label: "BTC Dom", value: marketStats.btcDominance, change: marketStats.btcChange, isPositive: false },
@@ -161,7 +161,7 @@ const MarketTicker = () => (
   </div>
 );
 
-// Search Bar (Telegram style - big rounded)
+// Search Bar
 const SearchBar = () => (
   <div className="px-6 mb-6">
     <GlassCard className="p-1.5" hover={false}>
@@ -185,11 +185,7 @@ const EntitiesCarousel = () => (
     <GlassCard className="p-4">
       <div className="flex items-center gap-5 overflow-x-auto scrollbar-hide" data-testid="entities-carousel">
         {topEntities.map((entity, i) => (
-          <a 
-            key={i}
-            href="#"
-            className="flex items-center gap-2.5 whitespace-nowrap group"
-          >
+          <a key={i} href="#" className="flex items-center gap-2.5 whitespace-nowrap group">
             <span className="text-xl">{entity.icon}</span>
             <span className="font-semibold text-gray-800 group-hover:text-blue-600 transition-colors">{entity.name}</span>
             <span className="text-gray-500">{entity.price}</span>
@@ -203,12 +199,11 @@ const EntitiesCarousel = () => (
   </div>
 );
 
-// Exchange Token Card (NEW - from Arkham design)
+// Exchange Token Card
 const ExchangeTokenCard = () => (
   <GlassCard className="p-5 mb-5">
     <div className="flex items-start justify-between mb-4">
       <div className="flex items-center gap-4">
-        {/* Token Icon */}
         <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center shadow-lg shadow-emerald-500/20">
           <span className="text-white text-2xl">{featuredToken.icon}</span>
         </div>
@@ -226,16 +221,12 @@ const ExchangeTokenCard = () => (
           </div>
         </div>
       </div>
-      <a 
-        href="#" 
-        className="flex items-center gap-2 px-4 py-2.5 border-2 border-blue-500 text-blue-600 text-sm font-semibold rounded-xl hover:bg-blue-50 transition-colors"
-      >
+      <a href="#" className="flex items-center gap-2 px-4 py-2.5 border-2 border-blue-500 text-blue-600 text-sm font-semibold rounded-xl hover:bg-blue-50 transition-colors">
         Trade Now on Exchange
         <ArrowUpRight className="w-4 h-4" />
       </a>
     </div>
     
-    {/* Stats Grid */}
     <div className="grid grid-cols-4 gap-4 pt-4 border-t border-gray-100">
       <div>
         <div className="text-xs text-gray-500 uppercase tracking-wider mb-1">24H VOLUME</div>
@@ -257,42 +248,31 @@ const ExchangeTokenCard = () => (
   </GlassCard>
 );
 
-// Exchange Flows Table (NEW - from Arkham design)
+// Exchange Flows Table
 const ExchangeFlowsTable = () => (
-  <div className="mb-5">
-    {/* Header with filters */}
+  <div>
     <div className="flex items-center justify-between mb-4">
       <h2 className="text-sm font-bold text-gray-500 uppercase tracking-wider">EXCHANGE FLOWS</h2>
       <div className="flex items-center gap-2">
-        <button className="px-3 py-1.5 text-xs font-semibold rounded-xl border-2 border-blue-500 text-blue-600 bg-blue-50">
-          CEX+DEX
-        </button>
-        <button className="px-3 py-1.5 text-xs font-semibold rounded-xl border-2 border-blue-500 text-blue-600 bg-blue-50">
-          MARKET CAP ≥ $100M
-        </button>
-        <button className="px-3 py-1.5 text-xs font-semibold rounded-xl border-2 border-blue-500 text-blue-600 bg-blue-50">
-          VOLUME ≥ $100K
-        </button>
-        <button className="px-3 py-1.5 text-xs font-semibold rounded-xl border-2 border-amber-500 text-amber-600 bg-amber-50">
-          SORT BY NETFLOW/VOLUME
-        </button>
+        <button className="px-3 py-1.5 text-xs font-semibold rounded-xl border-2 border-blue-500 text-blue-600 bg-blue-50">CEX+DEX</button>
+        <button className="px-3 py-1.5 text-xs font-semibold rounded-xl border-2 border-blue-500 text-blue-600 bg-blue-50">MARKET CAP ≥ $100M</button>
+        <button className="px-3 py-1.5 text-xs font-semibold rounded-xl border-2 border-blue-500 text-blue-600 bg-blue-50">VOLUME ≥ $100K</button>
+        <button className="px-3 py-1.5 text-xs font-semibold rounded-xl border-2 border-amber-500 text-amber-600 bg-amber-50">SORT BY NETFLOW/VOLUME</button>
       </div>
     </div>
     
     <GlassCard className="overflow-hidden">
-      {/* Filter Row */}
       <div className="flex items-center gap-4 px-5 py-3 border-b border-gray-100/50 text-xs text-gray-500">
         <Filter className="w-3.5 h-3.5" />
         <Link2 className="w-3.5 h-3.5" />
-        <span className="flex items-center gap-1"><Filter className="w-3 h-3" /> CEX/DEX</span>
-        <span className="flex items-center gap-1"><Filter className="w-3 h-3" /> MARKET CAP</span>
+        <span>CEX/DEX</span>
+        <span><Filter className="w-3 h-3 inline" /> MARKET CAP</span>
         <div className="ml-auto flex items-center gap-2">
           <span className="px-3 py-1.5 bg-gray-100 rounded-lg font-medium text-gray-700">24H</span>
           <ChevronDown className="w-4 h-4" />
         </div>
       </div>
       
-      {/* Table */}
       <table className="w-full">
         <thead>
           <tr className="border-b border-gray-100/50 text-xs text-gray-500 uppercase">
@@ -305,28 +285,26 @@ const ExchangeFlowsTable = () => (
         <tbody>
           {exchangeFlows.map((row, i) => (
             <tr key={i} className="border-b border-gray-50/50 hover:bg-gray-50/50 cursor-pointer transition-colors">
-              <td className="py-3.5 px-5">
+              <td className="py-3 px-5">
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-xl bg-gray-100 flex items-center justify-center text-lg">
-                    {row.icon}
-                  </div>
+                  <div className="w-8 h-8 rounded-xl bg-gray-100 flex items-center justify-center text-lg">{row.icon}</div>
                   <span className="font-semibold text-gray-900">{row.asset}</span>
                   {row.hasLink && <ArrowUpRight className="w-3.5 h-3.5 text-gray-400" />}
                 </div>
               </td>
-              <td className="py-3.5 px-4 text-right">
+              <td className="py-3 px-4 text-right">
                 <span className="font-semibold text-gray-900">{row.price}</span>
                 <span className={`ml-2 text-sm ${row.priceChange >= 0 ? 'text-emerald-500' : 'text-red-500'}`}>
                   {row.priceChange >= 0 ? '+' : ''}{row.priceChange}%
                 </span>
               </td>
-              <td className="py-3.5 px-4 text-right">
+              <td className="py-3 px-4 text-right">
                 <span className="font-semibold text-gray-900">{row.volume}</span>
                 <span className={`ml-2 text-sm ${row.volumeChange >= 0 ? 'text-emerald-500' : 'text-red-500'}`}>
                   {row.volumeChange >= 0 ? '+' : ''}{row.volumeChange}%
                 </span>
               </td>
-              <td className="py-3.5 px-5 text-right">
+              <td className="py-3 px-5 text-right">
                 <span className="font-semibold text-emerald-600">{row.netflow}</span>
                 <span className={`ml-2 text-sm ${row.netflowChange >= 0 ? 'text-emerald-500' : 'text-red-500'}`}>
                   {row.netflowChange >= 0 ? '+' : ''}{row.netflowChange}%
@@ -340,123 +318,98 @@ const ExchangeFlowsTable = () => (
   </div>
 );
 
-// Projects Table
-const ProjectsTable = () => (
-  <div>
-    <div className="flex items-center justify-between mb-3">
-      <h2 className="text-sm font-bold text-gray-500 uppercase tracking-wider">Projects</h2>
+// Filter for Transfers Table (NEW)
+const TransfersTable = () => (
+  <div className="h-full flex flex-col">
+    {/* Header */}
+    <div className="flex items-center justify-between mb-4">
+      <h2 className="text-sm font-bold text-gray-500 uppercase tracking-wider">FILTER FOR TRANSFERS</h2>
       <div className="flex items-center gap-2">
-        <button className="px-3 py-1.5 bg-blue-500 text-white text-xs font-medium rounded-xl">All</button>
-        <button className="px-3 py-1.5 bg-gray-100 text-gray-600 text-xs font-medium rounded-xl hover:bg-gray-200 transition-colors">Trending</button>
-        <button className="px-3 py-1.5 bg-gray-100 text-gray-600 text-xs font-medium rounded-xl hover:bg-gray-200 transition-colors">New (7d)</button>
+        <button className="px-3 py-1.5 text-xs font-semibold rounded-xl bg-blue-500 text-white">ALL</button>
+        <button className="px-3 py-1.5 text-xs font-semibold rounded-xl border-2 border-purple-500 text-purple-600 bg-purple-50">USD ≥ $1</button>
+        <button className="px-3 py-1.5 text-xs font-semibold rounded-xl border-2 border-blue-500 text-blue-600 bg-blue-50">SORT BY TIME</button>
       </div>
     </div>
     
-    <GlassCard className="overflow-hidden">
-      <table className="w-full text-sm" data-testid="projects-table">
-        <thead>
-          <tr className="border-b border-gray-100/50">
-            <th className="text-left py-4 px-5 text-xs font-semibold text-gray-500 uppercase">#</th>
-            <th className="text-left py-4 px-3 text-xs font-semibold text-gray-500 uppercase">Asset</th>
-            <th className="text-right py-4 px-3 text-xs font-semibold text-gray-500 uppercase">Price</th>
-            <th className="text-right py-4 px-3 text-xs font-semibold text-gray-500 uppercase hidden sm:table-cell">1h</th>
-            <th className="text-right py-4 px-3 text-xs font-semibold text-gray-500 uppercase">24h</th>
-            <th className="text-right py-4 px-3 text-xs font-semibold text-gray-500 uppercase hidden md:table-cell">7d</th>
-            <th className="text-right py-4 px-3 text-xs font-semibold text-gray-500 uppercase hidden lg:table-cell">Market Cap</th>
-            <th className="text-right py-4 px-5 text-xs font-semibold text-gray-500 uppercase hidden xl:table-cell">Volume</th>
-          </tr>
-        </thead>
-        <tbody>
-          {topProjects.map((project, i) => (
-            <tr key={i} className="border-b border-gray-50/50 hover:bg-gray-50/30 cursor-pointer transition-colors">
-              <td className="py-4 px-5 text-gray-400 font-medium">{i + 1}</td>
-              <td className="py-4 px-3">
-                <div className="flex items-center gap-3">
-                  <img src={project.icon} alt={project.name} className="w-9 h-9 rounded-xl" />
-                  <div>
-                    <div className="font-semibold text-gray-900">{project.name}</div>
-                    <div className="text-xs text-gray-500">{project.symbol}</div>
-                  </div>
-                </div>
-              </td>
-              <td className="py-4 px-3 text-right font-semibold text-gray-900">{project.price}</td>
-              <td className={`py-4 px-3 text-right hidden sm:table-cell ${project.change1h.startsWith('+') ? 'text-emerald-500' : 'text-red-500'}`}>{project.change1h}</td>
-              <td className={`py-4 px-3 text-right ${project.change24h.startsWith('+') ? 'text-emerald-500' : 'text-red-500'}`}>{project.change24h}</td>
-              <td className={`py-4 px-3 text-right hidden md:table-cell ${project.change7d.startsWith('+') ? 'text-emerald-500' : 'text-red-500'}`}>{project.change7d}</td>
-              <td className="py-4 px-3 text-right text-gray-600 hidden lg:table-cell">{project.marketCap}</td>
-              <td className="py-4 px-5 text-right text-gray-600 hidden xl:table-cell">{project.volume}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </GlassCard>
-  </div>
-);
-
-// Sidebar Component
-const Sidebar = () => (
-  <div className="space-y-5">
-    {/* Market Stats Card */}
-    <GlassCard className="p-5">
-      <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-4">Total M. Cap</h3>
-      <div className="flex items-center gap-2 mb-4">
-        <span className="text-2xl font-bold text-gray-900">{marketStats.totalMarketCap}</span>
-        <span className="flex items-center gap-1 text-sm text-emerald-500">
-          <TrendingUp className="w-4 h-4" />
-          {marketStats.marketCapChange}
-        </span>
+    <GlassCard className="flex-1 overflow-hidden flex flex-col">
+      {/* Pagination */}
+      <div className="flex items-center justify-center gap-3 py-3 border-b border-gray-100/50">
+        <span className="text-sm text-gray-500">TRANSFERS</span>
+        <div className="flex items-center gap-2">
+          <ChevronLeft className="w-4 h-4 text-gray-400 cursor-pointer hover:text-gray-600" />
+          <span className="text-sm font-semibold text-gray-900">1 / 625</span>
+          <ChevronRight className="w-4 h-4 text-gray-400 cursor-pointer hover:text-gray-600" />
+        </div>
+        <RefreshCw className="w-4 h-4 text-gray-400 cursor-pointer hover:text-gray-600" />
       </div>
       
-      <div className="space-y-3 pt-4 border-t border-gray-100">
-        <div className="flex items-center justify-between">
-          <span className="text-sm text-gray-500">BTC Dominance</span>
-          <div className="flex items-center gap-2">
-            <span className="font-semibold text-gray-900">{marketStats.btcDominance}</span>
-            <span className="text-xs text-red-500">{marketStats.btcChange}</span>
-          </div>
+      {/* Table Header */}
+      <div className="grid grid-cols-12 gap-2 px-4 py-2 border-b border-gray-100/50 text-[10px] text-gray-500 uppercase font-semibold">
+        <div className="col-span-1 flex items-center gap-1">
+          <Filter className="w-2.5 h-2.5" />
+          <Link2 className="w-2.5 h-2.5" />
+          <Clock className="w-2.5 h-2.5" />
         </div>
-        <div className="flex items-center justify-between">
-          <span className="text-sm text-gray-500">ETH Dominance</span>
-          <div className="flex items-center gap-2">
-            <span className="font-semibold text-gray-900">{marketStats.ethDominance}</span>
-            <span className="text-xs text-emerald-500">{marketStats.ethChange}</span>
-          </div>
-        </div>
+        <div className="col-span-1"><Filter className="w-2.5 h-2.5 inline" /> TIME</div>
+        <div className="col-span-3"><Filter className="w-2.5 h-2.5 inline" /> FROM</div>
+        <div className="col-span-3"><Filter className="w-2.5 h-2.5 inline" /> TO</div>
+        <div className="col-span-1 text-right"><Filter className="w-2.5 h-2.5 inline" /> VALUE</div>
+        <div className="col-span-2 text-right"><Filter className="w-2.5 h-2.5 inline" /> TOKEN</div>
+        <div className="col-span-1 text-right"><Filter className="w-2.5 h-2.5 inline" /> USD</div>
       </div>
-    </GlassCard>
-    
-    {/* Fear & Greed */}
-    <GlassCard className="p-5">
-      <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Fear & Greed Index</h3>
-      <div className="flex items-center gap-3">
-        <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center shadow-lg shadow-orange-500/20">
-          <span className="text-xl font-bold text-white">{marketStats.fearGreed}</span>
-        </div>
-        <div>
-          <div className="text-lg font-bold text-gray-900">Neutral</div>
-          <div className="text-sm text-gray-500">Updated just now</div>
-        </div>
-      </div>
-    </GlassCard>
-    
-    {/* Top Gainers */}
-    <GlassCard className="p-5">
-      <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-4">TOP Gainers (24h)</h3>
-      <div className="space-y-3">
-        {topGainers.map((gainer, i) => (
-          <div key={i} className="flex items-center justify-between group cursor-pointer">
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-xl bg-gray-100 flex items-center justify-center text-base">
-                {gainer.icon}
-              </div>
-              <div>
-                <div className="font-medium text-gray-900 group-hover:text-blue-600 transition-colors text-sm">{gainer.name}</div>
-                <div className="text-xs text-gray-500">{gainer.price}</div>
+      
+      {/* Table Body */}
+      <div className="flex-1 overflow-y-auto">
+        {transfersData.map((tx) => (
+          <div 
+            key={tx.id} 
+            className="grid grid-cols-12 gap-2 px-4 py-3 border-b border-gray-50/50 hover:bg-gray-50/50 cursor-pointer transition-colors items-center text-sm"
+          >
+            {/* Chain Icon */}
+            <div className="col-span-1">
+              <div 
+                className="w-6 h-6 rounded-lg flex items-center justify-center text-white text-xs"
+                style={{ backgroundColor: chainConfig[tx.chain]?.color || '#627EEA' }}
+              >
+                {chainConfig[tx.chain]?.icon}
               </div>
             </div>
-            <div className="flex items-center gap-1 text-emerald-500 font-semibold text-sm">
-              <TrendingUp className="w-3.5 h-3.5" />
-              {gainer.change}
+            
+            {/* Time */}
+            <div className="col-span-1">
+              <span className="text-blue-600 font-medium">{tx.time}</span>
+            </div>
+            
+            {/* From */}
+            <div className="col-span-3 flex items-center gap-1.5 min-w-0">
+              <span className="text-lg">{tx.fromIcon}</span>
+              <span className="text-blue-600 truncate">{tx.from}</span>
+            </div>
+            
+            {/* To */}
+            <div className="col-span-3 flex items-center gap-1.5 min-w-0">
+              {tx.toIcon && <span className="text-lg">{tx.toIcon}</span>}
+              <span className="text-blue-600 truncate">{tx.to}</span>
+            </div>
+            
+            {/* Value */}
+            <div className="col-span-1 text-right font-semibold text-gray-900">
+              {tx.value}
+            </div>
+            
+            {/* Token */}
+            <div className="col-span-2 text-right">
+              <span 
+                className="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg text-white text-xs font-semibold"
+                style={{ backgroundColor: tx.tokenColor }}
+              >
+                {tx.token}
+              </span>
+            </div>
+            
+            {/* USD */}
+            <div className="col-span-1 text-right text-gray-500 font-medium">
+              {tx.usd}
             </div>
           </div>
         ))}
@@ -482,30 +435,24 @@ export default function ArkhamHome() {
       {/* Entities Carousel */}
       <EntitiesCarousel />
       
-      {/* Main Content */}
+      {/* Main Content - Two Column Layout */}
       <div className="px-6 pb-8">
         <div className="grid grid-cols-12 gap-5">
-          {/* Left Column - Main Content */}
-          <div className="col-span-12 lg:col-span-8 xl:col-span-9">
-            {/* Title */}
-            <div className="mb-4">
-              <h1 className="text-2xl font-bold text-gray-900 mb-1">Market</h1>
-              <p className="text-gray-500 text-sm">Explore real-time data on all tokens</p>
-            </div>
+          {/* Left Column - Token Card + Exchange Flows */}
+          <div className="col-span-12 lg:col-span-5">
+            {/* Section Title */}
+            <h2 className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-4">EXCHANGE TOKENS</h2>
             
-            {/* Exchange Token Card (NEW) */}
+            {/* Exchange Token Card */}
             <ExchangeTokenCard />
             
-            {/* Exchange Flows Table (NEW) */}
+            {/* Exchange Flows Table */}
             <ExchangeFlowsTable />
-            
-            {/* Projects Table */}
-            <ProjectsTable />
           </div>
           
-          {/* Right Column - Sidebar */}
-          <div className="col-span-12 lg:col-span-4 xl:col-span-3">
-            <Sidebar />
+          {/* Right Column - Transfers Table */}
+          <div className="col-span-12 lg:col-span-7">
+            <TransfersTable />
           </div>
         </div>
       </div>
