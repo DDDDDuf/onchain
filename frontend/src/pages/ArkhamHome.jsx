@@ -202,51 +202,53 @@ const EntitiesCarousel = () => (
 
 // Exchange Token Card
 const ExchangeTokenCard = () => (
-  <GlassCard className="p-5 mb-5">
-    <div className="flex items-start justify-between mb-4">
-      <div className="flex items-center gap-4">
-        <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center shadow-lg shadow-emerald-500/20">
-          <span className="text-white text-2xl">{featuredToken.icon}</span>
-        </div>
-        <div>
-          <h3 className="text-xl font-bold text-gray-900">{featuredToken.name}</h3>
-          <div className="flex items-center gap-2 mt-1">
-            <span className="text-2xl font-bold text-gray-900">{featuredToken.price}</span>
-            <span className={`text-sm font-semibold px-2 py-0.5 rounded-lg ${
-              featuredToken.isPositive 
-                ? 'text-emerald-600 bg-emerald-100' 
-                : 'text-red-600 bg-red-100'
-            }`}>
-              {featuredToken.change}
-            </span>
+  <Link to="/token/xpl" className="block">
+    <GlassCard className="p-5 mb-5 cursor-pointer">
+      <div className="flex items-start justify-between mb-4">
+        <div className="flex items-center gap-4">
+          <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center shadow-lg shadow-emerald-500/20">
+            <span className="text-white text-2xl">{featuredToken.icon}</span>
+          </div>
+          <div>
+            <h3 className="text-xl font-bold text-gray-900">{featuredToken.name}</h3>
+            <div className="flex items-center gap-2 mt-1">
+              <span className="text-2xl font-bold text-gray-900">{featuredToken.price}</span>
+              <span className={`text-sm font-semibold px-2 py-0.5 rounded-lg ${
+                featuredToken.isPositive 
+                  ? 'text-emerald-600 bg-emerald-100' 
+                  : 'text-red-600 bg-red-100'
+              }`}>
+                {featuredToken.change}
+              </span>
+            </div>
           </div>
         </div>
+        <span className="flex items-center gap-2 px-4 py-2.5 border-2 border-blue-500 text-blue-600 text-sm font-semibold rounded-xl hover:bg-blue-50 transition-colors">
+          Trade Now on Exchange
+          <ArrowUpRight className="w-4 h-4" />
+        </span>
       </div>
-      <a href="#" className="flex items-center gap-2 px-4 py-2.5 border-2 border-blue-500 text-blue-600 text-sm font-semibold rounded-xl hover:bg-blue-50 transition-colors">
-        Trade Now on Exchange
-        <ArrowUpRight className="w-4 h-4" />
-      </a>
-    </div>
-    
-    <div className="grid grid-cols-4 gap-4 pt-4 border-t border-gray-100">
-      <div>
-        <div className="text-xs text-gray-500 uppercase tracking-wider mb-1">24H VOLUME</div>
-        <div className="text-sm font-semibold text-gray-900">{featuredToken.volume24h}</div>
+      
+      <div className="grid grid-cols-4 gap-4 pt-4 border-t border-gray-100">
+        <div>
+          <div className="text-xs text-gray-500 uppercase tracking-wider mb-1">24H VOLUME</div>
+          <div className="text-sm font-semibold text-gray-900">{featuredToken.volume24h}</div>
+        </div>
+        <div>
+          <div className="text-xs text-gray-500 uppercase tracking-wider mb-1">MARKET CAP</div>
+          <div className="text-sm font-semibold text-gray-900">{featuredToken.marketCap}</div>
+        </div>
+        <div>
+          <div className="text-xs text-gray-500 uppercase tracking-wider mb-1">ALL TIME HIGH</div>
+          <div className="text-sm font-semibold text-gray-900">{featuredToken.allTimeHigh}</div>
+        </div>
+        <div>
+          <div className="text-xs text-gray-500 uppercase tracking-wider mb-1">ALL TIME LOW</div>
+          <div className="text-sm font-semibold text-gray-900">{featuredToken.allTimeLow}</div>
+        </div>
       </div>
-      <div>
-        <div className="text-xs text-gray-500 uppercase tracking-wider mb-1">MARKET CAP</div>
-        <div className="text-sm font-semibold text-gray-900">{featuredToken.marketCap}</div>
-      </div>
-      <div>
-        <div className="text-xs text-gray-500 uppercase tracking-wider mb-1">ALL TIME HIGH</div>
-        <div className="text-sm font-semibold text-gray-900">{featuredToken.allTimeHigh}</div>
-      </div>
-      <div>
-        <div className="text-xs text-gray-500 uppercase tracking-wider mb-1">ALL TIME LOW</div>
-        <div className="text-sm font-semibold text-gray-900">{featuredToken.allTimeLow}</div>
-      </div>
-    </div>
-  </GlassCard>
+    </GlassCard>
+  </Link>
 );
 
 // Asset icon colors
