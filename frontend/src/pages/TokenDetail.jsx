@@ -83,6 +83,27 @@ const topFlows = [
   { from: "HTX", to: "DEX Router", value: "890K", usd: "$51.3K", time: "6 hours ago" },
 ];
 
+// Token Transfers Data
+const tokenTransfers = [
+  { id: 1, chain: "ethereum", time: "8 minutes ago", from: "0x52C76F669ab5b8a60616d4...", to: "0x2934692564e562A9Dd47cf...", value: "1", token: "AWE" },
+  { id: 2, chain: "ethereum", time: "13 minutes ago", from: "0x0bE41D9DE729a9C9a833ca...", to: "0xc9411FBB3499d4292e269a...", value: "1", token: "AWE" },
+  { id: 3, chain: "ethereum", time: "14 minutes ago", from: "0xD06058C1dFE21a0E63f78a...", to: "0x2934692564e562A9Dd47cf...", value: "1", token: "AWE" },
+  { id: 4, chain: "base", time: "16 minutes ago", from: "0x7F825c15dbEB16328b7D85...", to: "0xc9411FBB3499d4292e269a...", value: "1", token: "AWE" },
+  { id: 5, chain: "ethereum", time: "23 minutes ago", from: "0xF45B2AD8e5170557c7ee9F...", to: "0x2934692564e562A9Dd47cf...", value: "1", token: "AWE" },
+  { id: 6, chain: "base", time: "24 minutes ago", from: "0xa1b5FB1301C56f89404EBB...", to: "0x2934692564e562A9Dd47cf...", value: "1", token: "AWE" },
+  { id: 7, chain: "ethereum", time: "25 minutes ago", from: "0x34C1D98AF85e4Be117b618...", to: "0xc9411FBB3499d4292e269a...", value: "1", token: "AWE" },
+  { id: 8, chain: "ethereum", time: "27 minutes ago", from: "0x4f4C0646e69da9b878Eb39...", to: "0x2934692564e562A9Dd47cf...", value: "1", token: "AWE" },
+  { id: 9, chain: "base", time: "36 minutes ago", from: "Bitget Deposit (0xfed)", fromLabel: "Bitget Deposit", to: "Bitget: Hot Wallet (0x...", toLabel: "Bitget: Hot Wallet", value: "41.956K", token: "AWE" },
+  { id: 10, chain: "ethereum", time: "42 minutes ago", from: "Binance: Hot Wallet (0...", fromLabel: "Binance: Hot Wallet", to: "Bitget Deposit (0xfed)", toLabel: "Bitget Deposit", value: "41.956K", token: "AWE" },
+];
+
+const chainColors = {
+  ethereum: "#627EEA",
+  base: "#0052FF",
+  polygon: "#8247E5",
+  bsc: "#F3BA2F",
+};
+
 // Top Holders Data
 const topHolders = [
   { name: "Binance: Cold Wallet (0xF97)", isEntity: true, icon: "◇", value: "398,417,870.95", pct: "19.92%", usd: "$22.09M" },
