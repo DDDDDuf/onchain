@@ -431,22 +431,6 @@ const TransfersTable = () => (
     </GlassCard>
   </div>
 );
-              >
-                {tx.token}
-              </span>
-            </div>
-            
-            {/* USD */}
-            <div className="col-span-1 text-right text-gray-500 font-medium">
-              {tx.usd}
-            </div>
-          </div>
-        ))}
-      </div>
-    </GlassCard>
-  </div>
-);
-
 // ============ MAIN PAGE ============
 
 export default function ArkhamHome() {
