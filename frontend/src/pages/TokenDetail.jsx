@@ -427,6 +427,168 @@ const TopHoldersTable = ({ token }) => {
   );
 };
 
+// Price Chart Component
+const PriceChart = ({ token }) => {
+  const [chartTab, setChartTab] = useState('price');
+  const [chartPeriod, setChartPeriod] = useState('ALL');
+  
+  return (
+    <div className="h-full flex flex-col">
+      {/* Stats Bar */}
+      <GlassCard className="p-4 mb-4">
+        <div className="grid grid-cols-5 gap-4">
+          <div>
+            <div className="text-[10px] text-gray-500 uppercase tracking-wider flex items-center gap-1">
+              24H VOLUME <Info className="w-3 h-3" />
+            </div>
+            <div className="text-sm font-bold text-gray-900">{tokenStats.volume24h}</div>
+          </div>
+          <div>
+            <div className="text-[10px] text-gray-500 uppercase tracking-wider flex items-center gap-1">
+              MARKET CAP <Info className="w-3 h-3" />
+            </div>
+            <div className="text-sm font-bold text-gray-900">{tokenStats.marketCap}</div>
+          </div>
+          <div>
+            <div className="text-[10px] text-gray-500 uppercase tracking-wider flex items-center gap-1">
+              FDV <Info className="w-3 h-3" />
+            </div>
+            <div className="text-sm font-bold text-gray-900">{tokenStats.fdv}</div>
+          </div>
+          <div>
+            <div className="text-[10px] text-gray-500 uppercase tracking-wider flex items-center gap-1">
+              CURRENT SUPPLY <Info className="w-3 h-3" />
+            </div>
+            <div className="text-sm font-bold text-gray-900">{tokenStats.currentSupply}</div>
+          </div>
+          <div>
+            <div className="text-[10px] text-gray-500 uppercase tracking-wider flex items-center gap-1">
+              MAX SUPPLY <Info className="w-3 h-3" />
+            </div>
+            <div className="text-sm font-bold text-gray-900">{tokenStats.maxSupply}</div>
+          </div>
+        </div>
+      </GlassCard>
+      
+      {/* Chart Tabs */}
+      <div className="flex items-center justify-between mb-4">
+        <GlassCard className="p-1 inline-flex" hover={false}>
+          {['PRICE HISTORY', 'ON-CHAIN EXCHANGE FLOW', 'TRADINGVIEW'].map((tab) => (
+            <button
+              key={tab}
+              onClick={() => setChartTab(tab.toLowerCase().replace(/ /g, '_'))}
+              className={`px-4 py-2 text-xs font-semibold rounded-xl transition-all ${
+                chartTab === tab.toLowerCase().replace(/ /g, '_')
+                  ? 'bg-white text-gray-900 shadow-md'
+                  : 'text-gray-500 hover:text-gray-700'
+              }`}
+            >
+              {tab}
+            </button>
+          ))}
+        </GlassCard>
+        
+        <div className="flex items-center gap-1">
+          {['1W', '1M', '3M', '1Y', 'ALL'].map((period) => (
+            <button
+              key={period}
+              onClick={() => setChartPeriod(period)}
+              className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all ${
+                chartPeriod === period
+                  ? 'bg-gray-800 text-white'
+                  : 'text-gray-500 hover:bg-gray-100'
+              }`}
+            >
+              {period}
+            </button>
+          ))}
+        </div>
+      </div>
+      
+      {/* Chart */}
+      <GlassCard className="flex-1 p-4 min-h-[300px]">
+        <ResponsiveContainer width="100%" height="100%">
+          <AreaChart data={priceHistoryData}>
+            <defs>
+              <linearGradient id="colorPrice" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor="#3B82F6" stopOpacity={0.3}/>
+                <stop offset="95%" stopColor="#3B82F6" stopOpacity={0}/>
+              </linearGradient>
+            </defs>
+            <XAxis 
+              dataKey="date" 
+              axisLine={false} 
+              tickLine={false}
+              tick={{ fill: '#9CA3AF', fontSize: 10 }}
+            />
+            <YAxis 
+              axisLine={false} 
+              tickLine={false}
+              tick={{ fill: '#9CA3AF', fontSize: 10 }}
+              tickFormatter={(value) => `$${value.toFixed(2)}`}
+              domain={['auto', 'auto']}
+            />
+            <Tooltip 
+              contentStyle={{ 
+                backgroundColor: 'white', 
+                border: 'none', 
+                borderRadius: '12px',
+                boxShadow: '0 4px 20px rgba(0,0,0,0.1)'
+              }}
+              formatter={(value) => [`$${value.toFixed(4)}`, 'Price']}
+            />
+            <Area 
+              type="monotone" 
+              dataKey="price" 
+              stroke="#3B82F6" 
+              strokeWidth={2}
+              fill="url(#colorPrice)"
+            />
+          </AreaChart>
+        </ResponsiveContainer>
+      </GlassCard>
+      
+      {/* Bottom Stats */}
+      <GlassCard className="p-4 mt-4">
+        <div className="grid grid-cols-6 gap-4">
+          <div>
+            <div className="text-[10px] text-gray-500 uppercase tracking-wider">24H</div>
+            <div className={`text-sm font-bold ${tokenStats.change24h.startsWith('-') ? 'text-red-500' : 'text-emerald-500'}`}>
+              {tokenStats.change24h}
+            </div>
+          </div>
+          <div>
+            <div className="text-[10px] text-gray-500 uppercase tracking-wider">7D</div>
+            <div className={`text-sm font-bold ${tokenStats.change7d.startsWith('-') ? 'text-red-500' : 'text-emerald-500'}`}>
+              {tokenStats.change7d}
+            </div>
+          </div>
+          <div>
+            <div className="text-[10px] text-gray-500 uppercase tracking-wider">30D</div>
+            <div className={`text-sm font-bold ${tokenStats.change30d.startsWith('-') ? 'text-red-500' : 'text-emerald-500'}`}>
+              {tokenStats.change30d}
+            </div>
+          </div>
+          <div>
+            <div className="text-[10px] text-gray-500 uppercase tracking-wider">180D</div>
+            <div className={`text-sm font-bold ${tokenStats.change180d.startsWith('-') ? 'text-red-500' : 'text-emerald-500'}`}>
+              {tokenStats.change180d}
+            </div>
+          </div>
+          <div>
+            <div className="text-[10px] text-gray-500 uppercase tracking-wider">ATH</div>
+            <div className="text-sm font-bold text-gray-900">{tokenStats.ath}</div>
+          </div>
+          <div>
+            <div className="text-[10px] text-gray-500 uppercase tracking-wider">ATL</div>
+            <div className="text-sm font-bold text-gray-900">{tokenStats.atl}</div>
+          </div>
+        </div>
+      </GlassCard>
+    </div>
+  );
+};
+
 // ============ MAIN PAGE ============
 
 export default function TokenDetail() {
