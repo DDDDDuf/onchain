@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { 
   ChevronDown,
   ChevronLeft,
+  ChevronRight,
   Filter,
   ArrowUpRight,
   Wallet,
