@@ -7,10 +7,47 @@ import {
   ArrowUpRight,
   Wallet,
   Menu,
-  ExternalLink
+  ExternalLink,
+  Info
 } from 'lucide-react';
+import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, Area, AreaChart } from 'recharts';
 
 // ============ MOCK DATA ============
+
+// Price history data
+const priceHistoryData = [
+  { date: '2020', price: 0.05 },
+  { date: '2020.5', price: 0.07 },
+  { date: '2021', price: 0.03 },
+  { date: '2021.3', price: 0.08 },
+  { date: '2021.5', price: 0.12 },
+  { date: '2021.7', price: 0.18 },
+  { date: '2021.9', price: 0.09 },
+  { date: '2022', price: 0.05 },
+  { date: '2022.5', price: 0.03 },
+  { date: '2023', price: 0.04 },
+  { date: '2023.5', price: 0.05 },
+  { date: '2024', price: 0.06 },
+  { date: '2024.5', price: 0.08 },
+  { date: '2025', price: 0.14 },
+  { date: '2025.5', price: 0.09 },
+  { date: '2026', price: 0.12 },
+];
+
+// Token stats
+const tokenStats = {
+  volume24h: "$5,909,008",
+  marketCap: "$107,683,895.65",
+  fdv: "$107,683,895.65",
+  currentSupply: "1,942,420,283,027",
+  maxSupply: "1,942,420,283,027",
+  change24h: "-2.41%",
+  change7d: "-2.03%",
+  change30d: "-5.98%",
+  change180d: "-7.81%",
+  ath: "$0.270",
+  atl: "$0.00647",
+};
 
 const tokenData = {
   awe: {
